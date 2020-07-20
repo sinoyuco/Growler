@@ -7,6 +7,7 @@ const passport = require('passport');
 
 const users = require('./routes/api/users');
 const growls = require('./routes/api/growls');
+const bodyParser = require('body-parser');
 
 mongoose
     .connect(db, { useNewUrlParser: true })
@@ -16,11 +17,17 @@ mongoose
 app.use(passport.initialize());
 require('./config/passport')(passport);
 
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
+
+app.use(bodyParser.json());
 
 app.get("/", (req, res) => res.send("Hello World"));
 
 app.use("/api/users", users);
 app.use("/api/growls", growls);
+
 
 
 const port = process.env.PORT || 5000;
