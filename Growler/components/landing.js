@@ -6,7 +6,6 @@ import { AppLoading } from 'expo';
 const background_image = { uri: 'https://hiptrip-aa-seed.s3.amazonaws.com/Growler/landingback.png'}
 const tiger_image = { uri: 'https://hiptrip-aa-seed.s3.amazonaws.com/Growler/tiger.png' }
 
-
 const LandingScreen = ({ navigation }) => {
     let [fontsLoaded] = useFonts({
         Lobster_400Regular
