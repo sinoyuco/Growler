@@ -10,7 +10,6 @@ const Stack = createStackNavigator();
 
 export default function App() {
   return (
-<<<<<<< HEAD
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Landing" component={LandingScreen}/>
@@ -21,12 +20,6 @@ export default function App() {
         </View> */}
       </Stack.Navigator>
     </NavigationContainer>
-=======
-    <View style={styles.container}>
-      <Text>Growler Rocks!</Text>
-      <StatusBar style="auto" />
-    </View>
->>>>>>> e10eaafecdbe85a0f7b4874cb8f236f20c1525af
   );
 }
 
