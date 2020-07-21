@@ -20,9 +20,11 @@ const LandingScreen = ({ navigation }) => {
         <View styles={styles.main}>
             <Text style={styles.welcome}>Welcome to</Text>
             <Text style={styles.mainheader}>Growler</Text>
-        <View style={{width: '100%', justifyContent: 'center', alignItems: 'center', marginTop: 50, marginBottom: 50}}>
-            <Image source={tiger_image} style={styles.tiger}/>
-        </View>
+
+            <View style={{width: '100%', justifyContent: 'center', alignItems: 'center', marginTop: 50, marginBottom: 50}}>
+                <Image source={tiger_image} style={styles.tiger}/>
+            </View>
+            
             <Button
                 title="Start Growling"
                 onPress={() =>
@@ -30,7 +32,7 @@ const LandingScreen = ({ navigation }) => {
                 }
             />
 
-            <Text></Text>
+            {/* <Text><div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></Text> */}
         </View>
         </ImageBackground>
     );
