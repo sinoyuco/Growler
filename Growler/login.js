@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import { Button, StyleSheet, View, Text, TextInput } from 'react-native';
+import {login} from './actions/session_actions';
 
-export default class Login extends Component {
+class Login extends Component {
+
+    constructor(props){
+        this.state={email: '', password: ''}
+    }
 
     _onPressButton() {
-        alert('You tapped the button!')
-        //Login
+        this.props.login(this.state);
     }
 
     render(){
@@ -19,6 +24,7 @@ export default class Login extends Component {
                             borderWidth: 1
                         }}
                         defaultValue="Email"
+                        onChangeText={(str) => this.setState({ email: str })}
                 />
                 <TextInput
                     style={{
@@ -27,6 +33,7 @@ export default class Login extends Component {
                         borderWidth: 1
                     }}
                     defaultValue="Password"
+                    onChangeText={(str) => this.setState({ password: str })}
                 />
                 <Button
                     onPress={this._onPressButton}
@@ -37,3 +44,14 @@ export default class Login extends Component {
         );
     }
 }
+
+const mapStateToProps = (state) => ({
+
+});
+
+const mapDispatchToProps = (state) => ({
+    login
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
