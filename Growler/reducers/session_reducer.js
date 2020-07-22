@@ -6,13 +6,14 @@ import {
 
 const _nullErrors = [];
 
-const SessionErrorsReducer = (state = _nullErrors, action) => {
+const SessionReducer = (state = _nullErrors, action) => {
   Object.freeze(state);
   switch (action.type) {
     case RECEIVE_SESSION_ERRORS:
       return Object.assign({}, action.errors);
     case RECEIVE_CURRENT_USER:
-      return _nullErrors;
+      debugger;
+      return Object.assign({}, action.user);
     case CLEAR_SESSION_ERRORS:
       return [];
     default:
@@ -20,4 +21,4 @@ const SessionErrorsReducer = (state = _nullErrors, action) => {
   }
 };
 
-export default SessionErrorsReducer;
+export default SessionReducer;
