@@ -12,7 +12,7 @@ const SessionReducer = (state = _nullErrors, action) => {
     case RECEIVE_SESSION_ERRORS:
       return Object.assign({}, action.errors);
     case RECEIVE_CURRENT_USER:
-      console.log('struck')
+      debugger;
       return Object.assign({}, action.user);
     case CLEAR_SESSION_ERRORS:
       return [];
