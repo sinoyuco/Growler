@@ -1,39 +1,52 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useReducer } from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import { Button, StyleSheet, View, Text, TextInput } from 'react-native';
+import {login} from '../actions/session_actions';
 
-export default class Login extends Component {
 
-    _onPressButton() {
-        alert('You tapped the button!')
-        //Login
+
+export const Login = () => {
+
+    const initialLogin = {email: '', password: ''};
+    const [user, setUser] = useState(initialLogin);
+    
+    const dispatch = useDispatch();
+
+    
+    const _onPressButton = () => {
+        dispatch(login(this.state)).then(() => alert('logged in'));
     }
 
-    render(){
         return(
             <View>
                 <Text>This is the login screen.</Text>
                 <TextInput
-                        style={{
-                            height: 40,
-                            borderColor: 'gray',
-                            borderWidth: 1
-                        }}
-                        defaultValue="Email"
+                        style={styles.input}
+                        placeholder="Email"
+                        onChangeText={user => setUser('email')}
                 />
                 <TextInput
-                    style={{
-                        height: 40,
-                        borderColor: 'gray',
-                        borderWidth: 1
-                    }}
-                    defaultValue="Password"
+                    style={styles.input}
+                    placeholder="Password"
+                    onChangeText={user => setUser('password')}
                 />
                 <Button
-                    onPress={this._onPressButton}
+                    onPress={_onPressButton()}
                     title="Login"
                     color="#841584"
                 />
             </View>
         );
-    }
 }
+
+
+
+const styles = StyleSheet.create({
+    input: {
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+    }
+});
+
+

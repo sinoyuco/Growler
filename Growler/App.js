@@ -5,26 +5,26 @@ import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LandingScreen from './components/landing';
-import Login from './components/login';
+import {Login} from './components/login';
+import { Provider } from 'react-redux';
+import configureStore from './store/store';
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start TESTING on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-    // <NavigationContainer>
-    //   <Stack.Navigator>
-    //     <Stack.Screen name="Landing" component={LandingScreen}/>
-    //     <Stack.Screen name="Login" component={Login} />
-    //     {/* <View style={styles.container}>
-    //       <Text>Open up App.js to start working on your app!</Text>
-    //       <StatusBar style="auto" />
-    //     </View> */}
-    //   </Stack.Navigator>
-    // </NavigationContainer>
+    <Provider store={configureStore()}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Landing" component={LandingScreen}/>
+          <Stack.Screen name="Login" component={Login} />
+          {/* <View style={styles.container}>
+            <Text>Open up App.js to start working on your app!</Text>
+            <StatusBar style="auto" />
+          </View> */}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

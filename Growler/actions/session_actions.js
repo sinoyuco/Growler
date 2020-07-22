@@ -38,7 +38,8 @@ export const login = userData = dispatch => (
          dispatch(receiveCurrentUser(jwt_decode(token)));
     })
      .catch(err => {
-        dispatch(receiveErrors(err.response.data));
+         console.log(err);
+        dispatch(receiveSessionErrors(err.response.data));
     })
 );
 
