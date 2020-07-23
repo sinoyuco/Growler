@@ -10,21 +10,25 @@ const passport = require('passport');
 
 app.get("/", (req, res) => res.send("Hello World"));
 
+app.use(cors());
+
 mongoose
     .connect(db, { useNewUrlParser: true })
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.log(err));
-
-
-
-app.use(cors());
+    
 app.use(passport.initialize());
 
 
 
 require('./config/passport')(passport);
 
-app.use(bodyParser.urlencoded({extended: false}));
+
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
+
+
 app.use(bodyParser.json());
 
 app.use("/api/users", users);

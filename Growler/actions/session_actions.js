@@ -30,15 +30,17 @@ export const clearSessionErros = () => ({
     type: CLEAR_SESSION_ERRORS
 });
 
-export const login = (userData) => (dispatch) => {
-    return APIUtil.login(userData).then(res => {
-         const { token } = res.data;
-         saveData("jwtToken", token);
-         APIUtil.setAuthToken(token);
+export const login = (userData) => dispatch => {
+    return APIUtil.login(userData)
+    .then(res => {
+        debugger;
+        const { token } = res.data;
+        saveData("jwtToken", token);
+        APIUtil.setAuthToken(token);
          dispatch(receiveCurrentUser(jwt_decode(token)));
     })
      .catch(err => {
-         console.log(err);
+         debugger;
         dispatch(receiveSessionErrors(err.response.data));
     })
 };

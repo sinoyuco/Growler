@@ -2,7 +2,7 @@ import React, { Component, useState, useReducer } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 // import {bindActionCreators} from 'redux';
 import { Button, StyleSheet, View, Text, TextInput } from 'react-native';
-import {login} from '../actions/session_actions';
+import {login, logout} from '../actions/session_actions';
 import { connect } from 'react-redux';
 
 
@@ -45,14 +45,20 @@ class Login extends Component{
     constructor(props){
         super(props);
         this.state={email: '', password: ''}
-        this._onPressButton = this._onPressButton.bind(this);
+        this._handleLogin = this._handleLogin.bind(this);
+        this._handleLogout = this._handleLogout.bind(this);
         this._updateEmail = this._updateEmail.bind(this);
         this._updatePassword = this._updatePassword.bind(this);
     }
 
-    _onPressButton(){
+    _handleLogin(){
         debugger;
-        this.props.login(this.state);
+        this.props.login(this.state).then(() => this.props.navigation.navigate('Feed'));
+    }
+
+    _handleLogout() {
+        debugger;
+        this.props.logout(this.state).then(() => this.props.navigation.navigate('Landing'));
     }
 
     _updateEmail(text){
@@ -64,9 +70,11 @@ class Login extends Component{
     }
 
     render(){
-        return (
+        const logout_button = this.props.user.length !== 0 ? <Button title="Logout" onPress={this._handleLogout}></Button> : null;
+        return(
             <View>
                 <Text>This is the login screen.</Text>
+                {logout_button}
                 <TextInput
                         style={styles.input}
                         placeholder="Email"
@@ -78,7 +86,7 @@ class Login extends Component{
                     onChangeText={this._updatePassword}
                 />
                 <Button
-                    onPress={this._onPressButton}
+                    onPress={this._handleLogin}
                     title="Login"
                     color="#841584"
                 />
@@ -90,14 +98,18 @@ class Login extends Component{
 
 // export default Login;
 
-const mSTP = (state) =>({
-
-});
+const mSTP = (state) =>{
+    debugger;
+    return {
+    user: state.session
+    }
+};
 
 const mapDispatchToProps = (dispatch) => {
     debugger;
     return{
-    login: user => dispatch(login(user))
+    login: user => dispatch(login(user)),
+    logout: () => dispatch(logout())
     }
 }
 
