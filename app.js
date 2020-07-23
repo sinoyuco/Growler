@@ -6,13 +6,20 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const users = require('./routes/api/users');
 const growls = require('./routes/api/growls');
+var cors = require('cors');
 
 mongoose
     .connect(db, { useNewUrlParser: true })
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.log(err));
 
+
+
+app.use(cors());
 app.use(passport.initialize());
+
+
+
 require('./config/passport')(passport);
 
 app.use(bodyParser.urlencoded({

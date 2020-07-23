@@ -41,6 +41,8 @@ router.post('/login', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
+    console.log(req)
+
     User.findOne({ email })
     .then(user => {
         if (!user) {
@@ -59,7 +61,7 @@ router.post('/login', (req, res) => {
                     email: user.email
                 }
 
-                json.sign(
+                jwt.sign(
                     payload, 
                     keys.secretOrKey,
                     { expiresIn: 3600 },
