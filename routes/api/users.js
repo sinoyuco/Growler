@@ -40,15 +40,12 @@ router.post('/login', (req, res) => {
 
     const email = req.body.email;
     const password = req.body.password;
-
     User.findOne({ email })
     .then(user => {
+
         if (!user) {
             return res.status(404).json({email: 'This user does not exist'})
         } 
-
-        console.log('found');
-        
         bcrypt.compare(password, user.password)
         .then(isMatch => {
           
@@ -59,7 +56,7 @@ router.post('/login', (req, res) => {
                     email: user.email
                 }
 
-                json.sign(
+                jwt.sign(
                     payload, 
                     keys.secretOrKey,
                     { expiresIn: 3600 },
