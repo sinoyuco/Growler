@@ -32,15 +32,12 @@ export const clearSessionErros = () => ({
 
 export const login = (userData) => (dispatch) => {
     return APIUtil.login(userData).then(res => {
-        debugger;
-        console.log(res);
          const { token } = res.data;
          saveData("jwtToken", token);
          APIUtil.setAuthToken(token);
          dispatch(receiveCurrentUser(jwt_decode(token)));
     })
      .catch(err => {
-         debugger;
          console.log(err);
         dispatch(receiveSessionErrors(err.response.data));
     })
