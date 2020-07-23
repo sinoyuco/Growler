@@ -52,6 +52,7 @@ class Login extends Component{
 
     _onPressButton(){
         debugger;
+        console.log('loggin in');
         this.props.login(this.state);
     }
 
@@ -64,6 +65,7 @@ class Login extends Component{
     }
 
     render(){
+
         return (
             <View>
                 <Text>This is the login screen.</Text>
