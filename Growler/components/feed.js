@@ -14,14 +14,17 @@ class Feed extends Component{
 
     _handleLogout() {
         debugger;
-        this.props.logout().then(() => this.props.navigation.navigate('Landing'));
+        this.props.logout();
+        this.props.navigation.navigate('Landing');
     }
 
     render(){
+
         return(
             <View>
             <Button title="Logout" onPress={this._handleLogout}></Button>
-             <Text>{this.props.user.email}</Text>
+           
+            <Text> Hi {this.props.user.email}!</Text>
             </View>
         );
     }
@@ -31,7 +34,7 @@ class Feed extends Component{
 const mSTP = (state) => {
     debugger
     return{
-    user: state.session
+    user: state.session.user
 }};
 
 
