@@ -10,14 +10,14 @@ router.get('/test', (req, res) => {
 }); 
 
 router.post('/register', (req, res) => {
-    User.findOne({email: req.body.email})
+    User.findOne({email: req.body.email.toLowerCase()})
     .then(user => {
         if (user) {
             return res.status(400).json({email: "A user already exists with this email"})
         } else {
             const newUser = new User({
                 handle: req.body.handle,
-                email: req.body.email,
+                email: req.body.email.toLowerCase(),
                 password: req.body.password,
                 name: req.body.name,
                 birthday: req.body.birthday
@@ -38,7 +38,7 @@ router.post('/register', (req, res) => {
 
 router.post('/login', (req, res) => {
 
-    const email = req.body.email;
+    const email = req.body.email.toLowerCase();
     const password = req.body.password;
 
     console.log(req)
