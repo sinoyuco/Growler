@@ -58,7 +58,7 @@ class Login extends Component{
 
     _handleLogout() {
         debugger;
-        this.props.logout(this.state).then(() => this.props.navigation.navigate('Landing'));
+        this.props.logout().then(this.props.navigation.navigate('Landing'));
     }
 
     _updateEmail(text){
@@ -70,7 +70,7 @@ class Login extends Component{
     }
 
     render(){
-        const logout_button = this.props.user.length !== 0 ? <Button title="Logout" onPress={this._handleLogout}></Button> : null;
+        const logout_button = this.props.user ? <Button title="Logout" onPress={this._handleLogout}></Button> : null;
         return(
             <View>
                 <Text>This is the login screen.</Text>
@@ -104,7 +104,7 @@ class Login extends Component{
 const mSTP = (state) =>{
     debugger;
     return {
-    user: state.session
+    user: state.session.user
     }
 };
 

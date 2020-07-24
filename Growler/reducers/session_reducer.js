@@ -14,10 +14,10 @@ const SessionReducer = (state = _nullErrors, action) => {
       return Object.assign({}, action.errors);
     case RECEIVE_CURRENT_USER:
       debugger;
-      return Object.assign({}, action.user);
+      return Object.assign({}, {user: action.user});
     case RECEIVE_USER_LOGOUT:
       debugger;
-      return {};
+      return Object.assign({}, { user: null });
     case CLEAR_SESSION_ERRORS:
       return [];
     default:
