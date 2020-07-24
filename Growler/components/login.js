@@ -83,6 +83,7 @@ class Login extends Component{
                 <TextInput
                     style={styles.input}
                     placeholder="Password"
+                    secureTextEntry={true}
                     onChangeText={this._updatePassword}
                 />
                 <Button
@@ -90,6 +91,8 @@ class Login extends Component{
                     title="Login"
                     color="#841584"
                 />
+
+                <Button title="Not a member? Sign up" onPress={() => this.props.navigation.navigate('SignUp')}></Button>
             </View>
         );
     }
@@ -99,14 +102,12 @@ class Login extends Component{
 // export default Login;
 
 const mSTP = (state) =>{
-    debugger;
     return {
     user: state.session.user
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
-    debugger;
     return{
     login: user => dispatch(login(user)),
     logout: () => dispatch(logout())

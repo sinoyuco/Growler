@@ -19,12 +19,12 @@ class Feed extends Component{
     }
 
     render(){
-
+        const email = this.props.user ? this.props.user.email : null;
         return(
             <View>
             <Button title="Logout" onPress={this._handleLogout}></Button>
            
-            <Text> Hi {this.props.user.email}!</Text>
+            <Text> Hi {email}!</Text>
             </View>
         );
     }
