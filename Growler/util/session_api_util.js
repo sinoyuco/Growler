@@ -9,11 +9,12 @@ export const setAuthToken = (token) => {
 };
 
 export const signup = (userData) => {
-  return axios.post("/api/users/register", userData);
+  debugger;
+  return axios.post("http://192.168.1.7:5000/api/users/register", userData);
 };
 
 export const login = (userData) => {
   debugger;
   // return axios.post("http://localhost:5500/api/users/login", userData);
-  return axios.post("http://192.168.1.168:5000/api/users/login", userData);
+  return axios.post("http://192.168.1.7:5000/api/users/login", userData);
 };

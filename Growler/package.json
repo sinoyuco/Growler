@@ -10,6 +10,7 @@
   "dependencies": {
     "@expo-google-fonts/dev": "^0.1.0",
     "@react-native-community/async-storage": "^1.11.0",
+    "@react-native-community/datetimepicker": "2.4.0",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/native": "^5.7.1",
     "@react-navigation/stack": "^5.7.1",
@@ -26,6 +27,7 @@
     "react-native-date-picker": "^3.0.2",
     "react-native-datepicker": "^1.7.2",
     "react-native-gesture-handler": "^1.6.1",
+    "react-native-modal-datetime-picker": "^8.7.1",
     "react-native-reanimated": "~1.9.0",
     "react-native-safe-area-context": "~3.0.7",
     "react-native-screens": "~2.9.0",
@@ -34,8 +36,7 @@
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "utf-8-validate": "^5.0.2",
-    "@react-native-community/datetimepicker": "2.4.0"
+    "utf-8-validate": "^5.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
