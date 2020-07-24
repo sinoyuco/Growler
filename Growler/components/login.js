@@ -102,14 +102,12 @@ class Login extends Component{
 // export default Login;
 
 const mSTP = (state) =>{
-    debugger;
     return {
     user: state.session.user
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
-    debugger;
     return{
     login: user => dispatch(login(user)),
     logout: () => dispatch(logout())

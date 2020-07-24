@@ -4,15 +4,17 @@ import React, { Component, useState, useReducer } from 'react';
 import { Button, StyleSheet, View, Text, TextInput } from 'react-native';
 import { signup } from '../actions/session_actions';
 import { connect } from 'react-redux';
-import DatePicker from 'react-native-date-picker'
+// import DatePicker from 'react-native-date-picker'
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 
 class SignUp extends Component{
     constructor(props){
         super(props)
-        this.state={name:'', handle: '', email: '01-01-2020', birthdate:'', password: '', password2:''}
+        this.state={name:'', handle: '', email: '', birthdate: new Date(), password: '', password2:''}
         this._handleUpdate = this._handleUpdate.bind(this);
         this._handleSignup = this._handleSignup.bind(this);
+        this.onDateChange = this.onDateChange.bind(this);
     }
 
     _handleUpdate(text){
@@ -24,8 +26,12 @@ class SignUp extends Component{
         //this.props.signup(this.state).then(this.props.navigator.navigate('Feed'))
     }
 
+    onDateChange(selectedDate){
+        this.setState({date: selectedDate});
+    };
+
     render() {
-        
+        debugger;
         return (
             <View>
                 <Text>This is the sign up screen.</Text>
@@ -45,10 +51,11 @@ class SignUp extends Component{
                     placeholder="Email"
                     onChangeText={this._handleUpdate('email')}
                 />
-                <DatePicker
+                <DateTimePicker
                     title="Birthdate"
-                    date={this.state.date}
-                    onDateChange={(selected) => this.setState({date: selected})}
+                    value={this.state.birthdate}
+                    onChange={this.onDateChange}
+                    display="calendar"
                 />
                 <TextInput
                     style={styles.input}
@@ -86,6 +93,7 @@ const mDTP = (dispatch) => ({
 const styles = StyleSheet.create({
     input: {
         height: 40,
+        width: '80%',
         borderColor: 'gray',
         borderWidth: 1,
     }
