@@ -1,5 +1,13 @@
 import axios from "axios";
 
-export const postGrowl = (growl) => {
-    return axios.post('/api/growls/', growl)
-}
+export const getGrowls = () => {
+  return axios.get("/api/growls");
+};
+
+export const getUserGrowls = (id) => {
+  return axios.get(`/api/growls/user/${id}`);
+};
+
+export const postGrowl = (data) => {
+  return axios.post("/api/growls/", data);
+};
