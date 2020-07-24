@@ -10,9 +10,13 @@ router.get('/test', (req, res) => {
 }); 
 
 router.post('/register', (req, res) => {
+<<<<<<< HEAD
     console.log(req)
 
     User.findOne({email: req.body.email})
+=======
+    User.findOne({email: req.body.email.toLowerCase()})
+>>>>>>> f3f0bdfd1422cea452277f001ba66433e87215f9
     .then(user => {
         
         if (user) {
@@ -20,7 +24,7 @@ router.post('/register', (req, res) => {
         } else {
             const newUser = new User({
                 handle: req.body.handle,
-                email: req.body.email,
+                email: req.body.email.toLowerCase(),
                 password: req.body.password,
                 password2: req.body.password2,
                 name: req.body.name,
@@ -43,7 +47,7 @@ router.post('/register', (req, res) => {
 
 router.post('/login', (req, res) => {
 
-    const email = req.body.email;
+    const email = req.body.email.toLowerCase();
     const password = req.body.password;
 
     User.findOne({ email })

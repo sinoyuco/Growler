@@ -1,46 +1,40 @@
-
-import React, { Component, useState, useReducer } from 'react';
+import React, { Component, useState, useReducer, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 // import {bindActionCreators} from 'redux';
 import { Button, StyleSheet, View, Text, TextInput } from 'react-native';
 import { logout } from '../actions/session_actions';
-import { connect } from 'react-redux';
+import {fetchGrowls} from '../actions/growl_actions';
+import Growl from './growl';
 
-class Feed extends Component{
-    constructor(props){
-        super(props)
-        this._handleLogout = this._handleLogout.bind(this);
+export default feed = props => {
+    const growls = useSelector((state) => Object.values(state.growls.all));
+    const user = useSelector((state) => state.session.user);
+    const dispatch = useDispatch();
+    const _handleLogout = () => {
+        // debugger;
+        dispatch(logout());
+        props.navigation.navigate('Landing');
     }
 
-    _handleLogout() {
-        debugger;
-        this.props.logout();
-        this.props.navigation.navigate('Landing');
-    }
+    useEffect(() => {
+        dispatch(fetchGrowls());
+    })
 
-    render(){
-        const email = this.props.user ? this.props.user.email : null;
-        return(
-            <View>
-            <Button title="Logout" onPress={this._handleLogout}></Button>
-           
-            <Text> Hi {email}!</Text>
-            </View>
-        );
-    }
+    const email = user ? user.email : null;
+    const showGrowls = growls.length ? growls : 'Your growls feed is empty :(';
+
+    return (
+      <View>
+        <Text> Hi {email}!</Text>
+        <Text>
+          {showGrowls}
+        </Text>
+        <Growl/>
+        <Button title="Logout" onPress={_handleLogout}></Button>
+      </View>
+    );
 }
 
 
-const mSTP = (state) => {
-    debugger
-    return{
-    user: state.session.user
-}};
 
-
-const mDTP = (dispatch) => ({
-    logout: () => dispatch(logout())
-});
-
-export default connect(mSTP, mDTP)(Feed);
 
