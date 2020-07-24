@@ -4,7 +4,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button, StyleSheet, View, Text, TextInput } from 'react-native';
 // import { login, logout } from '../actions/session_actions';
 import { connect } from 'react-redux';
-import { fetchGrowls, postGrowl } from "../actions/growl_actions";
+import {
+  fetchGrowls,
+  postGrowl,
+  fetchUserGrowls,
+} from "../actions/growl_actions";
 
 
 export default growl = props => {
@@ -18,7 +22,10 @@ export default growl = props => {
     }
 
     const _handleSubmit = () => {
-        dispatch(postGrowl(text))
+        if (user) {
+          dispatch(postGrowl({text: text.text, user: user.id}))
+                .then(dispatch(fetchGrowls()))
+        }
     }
 
     return (
