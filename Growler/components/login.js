@@ -21,6 +21,7 @@ const Login = ({ navigation }) => {
     
     const [email, setEmail] = useState('');
     const [password, setPassword ] = useState('');
+    const errors = useSelector(state => state.errors.session);
 
     const _handleLogin = () => {
         debugger;
@@ -28,8 +29,6 @@ const Login = ({ navigation }) => {
         dispatch(login(data)).then((res) => {
             if(res.type === 'RECEIVE_CURRENT_USER'){
                 navigation.navigate('Feed')
-            }else{
-                alert('failed');
             }
         });
     }
@@ -44,10 +43,10 @@ const Login = ({ navigation }) => {
             height: 50,
             borderColor: 'gray',
             borderWidth: 1,
-            width: '80%',
+            width: '100%',
             marginTop: 10,
             marginRight: 'auto',
-            marginBottom: 10,
+            marginBottom: 30,
             marginLeft: 'auto',
             borderRadius: 10,
             borderWidth: 1,
@@ -66,10 +65,25 @@ const Login = ({ navigation }) => {
         main: {
             alignItems: 'center',
             justifyContent: 'center',
+        },
+        error_text:{
+            position: 'absolute',
+            borderWidth: 1,
+            borderColor: '#FF6347',
+            backgroundColor: '#FF6347',
+            color: '#FFFFFF',
+            bottom: 23
+        },
+        input_parent: {
+            position: 'relative',
+            width: '80%',
         }
     });
 
     const logout_button = user ? <Button title="Logout" onPress={() => _handleLogout()}></Button> : null;
+
+    const email_error = errors.email ? <Text style={styles.error_text}>{errors.email}</Text> : null;
+    const password_error = errors.password ? <Text style={styles.error_text}>{errors.password}</Text> : null;
         
     if (!fontsLoaded) {
         return <AppLoading />
@@ -79,19 +93,27 @@ const Login = ({ navigation }) => {
             <View style={styles.main}>
                 <Text style={styles.mainheader}>Login</Text>
                 {logout_button}
-                <TextInput
+
+                <View style={styles.input_parent}>
+                    <TextInput
+                            style={styles.input}
+                            placeholder="Email"
+                        placeholderTextColor='#FFFFFF'
+                            onChangeText={(email) => setEmail(email)}
+                    />
+                        {email_error}
+                </View>
+
+                <View style={styles.input_parent}>
+                    <TextInput
                         style={styles.input}
-                        placeholder="Email"
-                    placeholderTextColor='#FFFFFF'
-                        onChangeText={(email) => setEmail(email)}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Password"
-                    placeholderTextColor='#FFFFFF'
-                    secureTextEntry={true}
-                    onChangeText={(pass) => setPassword(pass)}
-                />
+                        placeholder="Password"
+                        placeholderTextColor='#FFFFFF'
+                        secureTextEntry={true}
+                        onChangeText={(pass) => setPassword(pass)}
+                    />
+                        {password_error}
+                </View>
                 <Button
                     onPress={() => _handleLogin()}
                     title="Login"

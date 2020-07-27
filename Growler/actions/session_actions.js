@@ -48,12 +48,12 @@ export const login = (userData) => dispatch => {
 
 export const signup = user => dispatch => {
     debugger;
-    APIUtil.signup(user).then(() => {
+    return APIUtil.signup(user).then(() => {
         debugger;
-        dispatch(receiveCurrentUser(user))
+        return dispatch(receiveCurrentUser(user))
     }, err => {
         debugger;
-        dispatch(receiveErrors(err.response.data))}
+        return dispatch(receiveSessionErrors(err.response.data))}
     ).catch(err => {
         debugger;
         console.log(err);
