@@ -46,11 +46,16 @@ const SignUp = ({ navigation }) => {
     const handleSignup = () => {
         const user = {name: name, handle: handle, birthday: birthday, email: email, password: password, password2: password2}
         debugger;
-        dispatch(signup(user)).then(() => navigation.navigate('Feed'));
-        //.then(navigation.navigate('Feed'));
+        dispatch(signup(user)).then((res) => {
+            if(res.type === 'RECEIVE_CURRENT_USER'){
+                navigation.navigate('Feed');
+            }else{
+                alert('failed');
+            }
+        });
     }
 
-    let birthday_button_text = birthday === new Date() ? 'Enter Birthday' : birthday
+    let birthday_button_text = birthday === new Date() ? 'Enter Birthday' : birthday.toLocaleDateString();
 
     const styles = StyleSheet.create({
         input: {
@@ -90,7 +95,7 @@ const SignUp = ({ navigation }) => {
     } else {
     return (
         <ImageBackground source={background_image} style={{ width: '100%', height: '100%' }}>
-            <View styles>
+            <View style={styles.main}>
                 <Text style={styles.mainheader}> Register </Text>
 
                 <TextInput

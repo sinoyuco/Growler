@@ -38,11 +38,11 @@ export const login = (userData) => dispatch => {
         const { token } = res.data;
         saveData("jwtToken", token);
         APIUtil.setAuthToken(token);
-         dispatch(receiveCurrentUser(jwt_decode(token)));
+        return dispatch(receiveCurrentUser(jwt_decode(token)));
     })
      .catch(err => {
          debugger;
-        dispatch(receiveSessionErrors(err.response.data));
+        return dispatch(receiveSessionErrors(err.response.data));
     })
 };
 

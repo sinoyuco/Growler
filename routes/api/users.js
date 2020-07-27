@@ -10,13 +10,7 @@ router.get('/test', (req, res) => {
 }); 
 
 router.post('/register', (req, res) => {
-<<<<<<< HEAD
-    console.log(req)
-
-    User.findOne({email: req.body.email})
-=======
     User.findOne({email: req.body.email.toLowerCase()})
->>>>>>> f3f0bdfd1422cea452277f001ba66433e87215f9
     .then(user => {
         
         if (user) {
