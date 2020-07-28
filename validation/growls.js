@@ -13,7 +13,7 @@ module.exports = function validateGrowlInput(data) {
     if (Validator.isEmpty(data.text)) {
         errors.text = 'Text field is required';
     }
-
+debugger;   
     return {
         errors,
         isValid: Object.keys(errors).length === 0

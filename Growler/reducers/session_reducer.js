@@ -6,18 +6,23 @@ import {
 } from "../actions/session_actions";
 
 const _nullErrors = [];
+const initialState = {
+  isAuthenticated: false,
+  user: {}
+};
 
-const SessionReducer = (state = _nullErrors, action) => {
+const SessionReducer = (state = initialState, action) => {
   Object.freeze(state);
   switch (action.type) {
     case RECEIVE_SESSION_ERRORS:
       return Object.assign({}, action.errors);
     case RECEIVE_CURRENT_USER:
       debugger;
-      return Object.assign({}, {user: action.user});
+      return Object.assign({}, {
+        ...state, isAuthenticated: !!action.user, user: action.user});
     case RECEIVE_USER_LOGOUT:
       debugger;
-      return Object.assign({}, { user: null });
+      return Object.assign({}, { isAuthenticated: false, user: null });
     case CLEAR_SESSION_ERRORS:
       return [];
     default:

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 // import {bindActionCreators} from 'redux';
 import { Button, StyleSheet, View, Text, TextInput } from 'react-native';
@@ -12,8 +12,8 @@ import {
 
 
 export default growl = props => {
-    const user = useSelector(state => state.session.user);
-    const newTweet = useSelector(state => state.growls.new);
+    const user = useSelector(state => state.session.user)
+    const newGrowl = useSelector(state => state.growls.new);
     const dispatch = useDispatch();
     const [text, setText] = useState({text: ""});
 
@@ -21,13 +21,21 @@ export default growl = props => {
         setText({text: text})
     }
 
-    const _handleSubmit = () => {
-        if (user) {
-          dispatch(postGrowl({text: text.text, user: user.id}))
-                .then(dispatch(fetchGrowls()))
-        }
-    }
 
+    const _handleSubmit = () => {
+      debugger
+      if (user) {
+        dispatch(postGrowl({text: text.text, user: user.id}))
+
+      }
+      }
+                // .then(dispatch(fetchGrowls()))
+                // .then(console.log('growled'))
+        
+    
+ 
+
+  
     return (
       <View>
         <Text>Make a growl!</Text>

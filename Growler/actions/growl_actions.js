@@ -35,8 +35,15 @@ export const fetchUserGrowls = (id) => (dispatch) =>{
         .then((growls) => dispatch(receiveUserGrowls(growls)))
         .catch((err) => console.log(err))};
 
-export const postGrowl = (growl) => dispatch => {
-    return APIUtil.postGrowl(growl)
-    .then(growl => dispatch(receiveGrowl(growl)))
-    .catch(err => receiveGrowlErrors(err))};
+export const postGrowl = (data) => dispatch => {
+    debugger
+    return APIUtil.postGrowl(data)
+    .then(growl => {
+        debugger;
+        dispatch(receiveNewGrowl(growl))})
+    .catch(err => {
+        debugger 
+        return dispatch(receiveGrowlErrors(err))}
+        )};
+
 

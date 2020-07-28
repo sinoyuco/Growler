@@ -9,5 +9,9 @@ export const getUserGrowls = (id) => {
 };
 
 export const postGrowl = (data) => {
-  return axios.post("/api/growls/", data);
+  debugger
+ return axios.post('http://192.168.1.7:5000/api/growls/growl', data);
+  // return axios.post({"https://localhost:5000/api/growls/", data});
+
 };
+
