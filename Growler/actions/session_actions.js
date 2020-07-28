@@ -13,8 +13,9 @@ export const receiveCurrentUser = user => ({
   user,
 });
 
-export const receiveUserSignIn = () => ({
+export const receiveUserSignIn = (user) => ({
   type: RECEIVE_USER_SIGN_IN,
+  user
 });
 
 export const logoutUser = () => ({
@@ -36,18 +37,27 @@ export const login = (userData) => dispatch => {
         const { token } = res.data;
         saveData("jwtToken", token);
         APIUtil.setAuthToken(token);
-        dispatch(receiveCurrentUser(jwt_decode(token)));
+        return dispatch(receiveCurrentUser(jwt_decode(token)));
     })
      .catch(err => {
-        dispatch(receiveSessionErrors(err.response.data));
+         debugger;
+        return dispatch(receiveSessionErrors(err.response.data));
     })
 };
 
-export const signup = user => dispatch => (
-    APIUtil.signup(user).then(() => (
-        dispatch(receiveUserSignIn())
-    )), err => (dispatch(receiveErrors(err.response.data)))
-);
+export const signup = user => dispatch => {
+    debugger;
+    return APIUtil.signup(user).then(() => {
+        debugger;
+        return dispatch(receiveCurrentUser(user))
+    }, err => {
+        debugger;
+        return dispatch(receiveSessionErrors(err.response.data))}
+    ).catch(err => {
+        debugger;
+        console.log(err);
+    });
+};
 
 export const logout = () => (dispatch) => {
     remove("jwtToken");

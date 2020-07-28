@@ -5,6 +5,11 @@ const bcrypt = require("bcryptjs");
 const keys = require('../../config/keys');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
+const multer = require('multer');
+const upload = multer({ dest: '../Growler/assets/uploads'}); 
+const login_validations = require('../../validation/login');
+const register_validations = require('../../validation/register');
+
 
 router.get('/test', (req, res) => {
     res.json({ msg: "This is the users route"});
@@ -19,8 +24,17 @@ router.get('/current', passport.authenticate('jwt', { session: false }), (req, r
 })
 
 router.post('/register', (req, res) => {
+
+
+    const {errors, isValid} = register_validations(req.body);
+
+    if(!isValid){
+        return res.status(400).json(errors);
+    }
+
     User.findOne({email: req.body.email.toLowerCase()})
     .then(user => {
+        
         if (user) {
             return res.status(400).json({email: "A user already exists with this email"})
         } else {
@@ -28,9 +42,11 @@ router.post('/register', (req, res) => {
                 handle: req.body.handle,
                 email: req.body.email.toLowerCase(),
                 password: req.body.password,
+                password2: req.body.password2,
                 name: req.body.name,
                 birthday: req.body.birthday
-            })
+            });
+
             bcrypt.genSalt(10, (err, salt) => {
                 bcrypt.hash(newUser.password, salt, (err, hash) => {
                     if (err) throw err;
@@ -47,10 +63,14 @@ router.post('/register', (req, res) => {
 
 router.post('/login', (req, res) => {
 
+    const { errors, isValid } = login_validations(req.body);
+
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
     const email = req.body.email.toLowerCase();
     const password = req.body.password;
-
-    console.log(req)
 
     User.findOne({ email })
     .then(user => {
@@ -84,7 +104,51 @@ router.post('/login', (req, res) => {
         })
     })
 
-})
+});
+
+// router.post('/:user_id/upload', upload.single('profile'), (req,res) => {
+//     User.findById(req.params.user_id)
+//     .then((user) => {
+        
+//         const file = req.file;
+        
+
+//         let s3bucket = new AWS.S3({
+//             accessKeyId: keys.aws_access_key_id,
+//             secretAccessKey: keys.aws_secret_access_key,
+//             region: keys.aws_region,
+//         });
+
+//         let params = {
+//             Bucket: keys.aws_bucket_name,
+//             Key: file.originalname,
+//             Body: file.buffer,
+//             ContentType: file.mimetype,
+//             ACL: "public-read"
+//         };
+
+//         s3bucket.upload(params, function (err, data) {
+//             if (err) {
+//                 res.status(500).json({ error: true, Message: err });
+//             } else {
+//                 res.send({ data });
+//                 var newImageUploaded = {
+//                     description: req.body.description,
+//                     fileLink: s3FileURL + file.originalname,
+//                     s3_key: params.Key
+//                 };
+//                 var document = new DOCUMENT(newImageUploaded);
+//                 document.save(function (error, newFile) {
+//                     if (error) {
+//                         throw error;
+//                     }
+//                 });
+//             }
+//         });
+
+
+//     });
+// });
 
 
 module.exports = router;
