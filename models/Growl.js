@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const GrowlSchema = new Schema({
+const GrowlsSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
@@ -17,4 +17,4 @@ const GrowlSchema = new Schema({
     }
 });
 
-module.exports = Growl = mongoose.model('growl', GrowlSchema);
+module.exports = Growl = mongoose.model('growls', GrowlsSchema);

@@ -4,6 +4,7 @@ const User = require("../../models/User");
 const bcrypt = require("bcryptjs");
 const keys = require('../../config/keys');
 const jwt = require('jsonwebtoken');
+const passport = require('passport');
 const multer = require('multer');
 const upload = multer({ dest: '../Growler/assets/uploads'}); 
 const login_validations = require('../../validation/login');
@@ -16,6 +17,14 @@ router.get('/all', (req, res) => {
         .then(users => res.json(users))
         .catch(err => res.status(404).json({ nogrowlsfound: 'No growls found' }));
 }); 
+
+router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
+    res.json({
+        id: req.user.id,
+        handle: req.user.handle,
+        email: req.user.email
+    });
+})
 
 router.post('/register', (req, res) => {
 

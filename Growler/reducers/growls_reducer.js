@@ -2,6 +2,7 @@ import {
   RECEIVE_GROWLS,
   RECEIVE_USER_GROWLS,
   RECEIVE_NEW_GROWL,
+  RECEIVE_GROWL_ERRORS,
 } from "../actions/growl_actions";
 
 const GrowlsReducer = (state = { all: {}, user: {}, new: undefined },action) => {
@@ -17,8 +18,12 @@ const GrowlsReducer = (state = { all: {}, user: {}, new: undefined },action) => 
       newState.user = action.growls.data;
       return newState;
     case RECEIVE_NEW_GROWL:
+      debugger;
       newState.new = action.growl.data;
       return newState;
+    case RECEIVE_GROWL_ERRORS:
+      debugger;
+    return newState.errors = action.errors;
     default:
       return state;
   }
