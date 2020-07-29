@@ -1,13 +1,14 @@
 import axios from "axios";
 
 export const getGrowls = () => {
-  return axios.get("/api/growls");
+  return axios.get("http://192.168.1.7:5000/api/growls");
 };
 
 export const getUserGrowls = (id) => {
-  return axios.get(`/api/growls/user/${id}`);
+  return axios.get(`http://192.168.1.7:5000/api/growls/user/${id}`);
 };
 
 export const postGrowl = (data) => {
-  return axios.post("/api/growls/", data);
+  debugger;
+  return axios.post("http://192.168.1.7:5000/api/growls", data);
 };

@@ -4,26 +4,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button, StyleSheet, View, Text, TextInput } from 'react-native';
 // import { login, logout } from '../actions/session_actions';
 import { connect } from 'react-redux';
-import {
-  fetchGrowls,
-  postGrowl,
-  fetchUserGrowls,
-} from "../actions/growl_actions";
+import { fetchGrowls, postGrowl, fetchUserGrowls} from "../actions/growl_actions";
 
 
-export default growl = props => {
+export default CreateGrowl = props => {
     const user = useSelector(state => state.session.user);
     const newTweet = useSelector(state => state.growls.new);
     const dispatch = useDispatch();
-    const [text, setText] = useState({text: ""});
-
-    const _updateText = text => {
-        setText({text: text})
-    }
+    const [text, setText] = useState("");
 
     const _handleSubmit = () => {
+      debugger;
         if (user) {
-          dispatch(postGrowl({text: text.text, user: user.id}))
+          dispatch(postGrowl({text: text}))
                 .then(dispatch(fetchGrowls()))
         }
     }
@@ -34,9 +27,9 @@ export default growl = props => {
         <TextInput
           style={styles.textarea}
           placeholder="What's on your mind?"
-          onChangeText={_updateText}
+          onChangeText={(text) => setText(text)}
         />
-        <Button title="Growl it :)" onPress={_handleSubmit}></Button>
+        <Button title="Growl it :)" onPress={() => _handleSubmit()}></Button>
       </View>
     );
 }

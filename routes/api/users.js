@@ -10,8 +10,11 @@ const login_validations = require('../../validation/login');
 const register_validations = require('../../validation/register');
 
 
-router.get('/test', (req, res) => {
-    res.json({ msg: "This is the users route"});
+router.get('/all', (req, res) => {
+     User.find()
+        .sort({ date: -1 })
+        .then(users => res.json(users))
+        .catch(err => res.status(404).json({ nogrowlsfound: 'No growls found' }));
 }); 
 
 router.post('/register', (req, res) => {

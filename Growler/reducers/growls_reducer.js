@@ -9,9 +9,11 @@ const GrowlsReducer = (state = { all: {}, user: {}, new: undefined },action) => 
   let newState = Object.assign({}, state);
   switch (action.type) {
     case RECEIVE_GROWLS:
+    debugger;
       newState.all = action.growls.data;
       return newState;
     case RECEIVE_USER_GROWLS:
+    debugger;
       newState.user = action.growls.data;
       return newState;
     case RECEIVE_NEW_GROWL:

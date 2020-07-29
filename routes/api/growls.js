@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const mongoose = require('mongoose');
-const passport = require('passport');
+const passport = require('passport');  
 
 const Growl = require('../../models/Growl');
 const validateGrowlInput = require('../../validation/growls');
@@ -18,8 +18,7 @@ router.get('/user/:user_id', (req, res) => {
     Growl.find({ user: req.params.user_id })
         .then(growls => res.json(growls))
         .catch(err =>
-            res.status(404).json({ nogrowlsfound: 'No growls found from that user' }
-            )
+            res.status(404).json({ nogrowlsfound: 'No growls found from that user' })
         );
 });
 
@@ -35,6 +34,8 @@ router.post('/',
     passport.authenticate('jwt', { session: false }),
     (req, res) => {
         const { errors, isValid } = validateGrowlInput(req.body);
+
+        console.log(req.user);
 
         if (!isValid) {
             return res.status(400).json(errors);

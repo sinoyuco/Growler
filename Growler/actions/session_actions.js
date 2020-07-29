@@ -63,7 +63,7 @@ export const signup = user => dispatch => {
 export const logout = () => (dispatch) => {
     remove("jwtToken");
     APIUtil.setAuthToken(false);
-    dispatch(logoutUser());
+    return dispatch(logoutUser());
 };
 
 
