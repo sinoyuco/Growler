@@ -1,16 +1,10 @@
 import axios from "axios";
 
 export const setAuthToken = (token) => {
-<<<<<<< HEAD
   debugger;
   if(token){
     debugger;
     axios.defaults.headers.common['Authorization'] = token;
-=======
-  if (token) {
-    axios.defaults.headers.common.Authorization = token;
-    debugger
->>>>>>> ed2c21fff2f7fdbd7eb359393caf1133e54758ab
   } else {
     delete axios.defaults.headers.common['Authorization'];
   }

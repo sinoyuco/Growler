@@ -34,21 +34,6 @@ router.post('/growl',
     passport.authenticate('jwt', { session: false }),
     (req, res) => {
         const { errors, isValid } = validateGrowlInput(req.body);
-        console.log('Here')
-        console.log('Here')
-        console.log('Here')
-        console.log('Here')
-        console.log('Here')
-        console.log('Here')
-        console.log('Here')
-        console.log('Here')
-        console.log('Here')
-        console.log('Here')
-        console.log('Here')
-        console.log('Here')
-        console.log('Here')
-        console.log('Here')
-        console.log('Here')
 
         console.log(req.user);
 

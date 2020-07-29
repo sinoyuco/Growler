@@ -47,16 +47,6 @@ export const fetchUserGrowls = (id) => (dispatch) => {
         })
 };
 
-<<<<<<< HEAD
-export const postGrowl = (growl) => dispatch => {
-    return APIUtil.postGrowl(growl)
-    .then(growl => {
-        dispatch(receiveNewGrowl(growl))
-    }).catch(err => {
-        receiveGrowlErrors(err)
-    });
-};
-=======
 export const postGrowl = (data) => dispatch => {
     debugger
     return APIUtil.postGrowl(data)
@@ -65,8 +55,8 @@ export const postGrowl = (data) => dispatch => {
         dispatch(receiveNewGrowl(growl))})
     .catch(err => {
         debugger 
-        return dispatch(receiveGrowlErrors(err))}
-        )};
+        return dispatch(receiveGrowlErrors(err))
+        });
+}
 
->>>>>>> ed2c21fff2f7fdbd7eb359393caf1133e54758ab
 
