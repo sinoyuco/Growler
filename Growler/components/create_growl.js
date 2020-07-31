@@ -23,14 +23,15 @@ export default CreateGrowl = props => {
     }
   
     return (
-      <View>
-        <Text>Make a growl!</Text>
+      <View style={styles.main}>
         <TextInput
           style={styles.textarea}
           placeholder="What's on your mind?"
           onChangeText={(text) => setText(text)}
         />
-        <Button title="Growl it :)" onPress={() => _handleSubmit()}></Button>
+        <View style={styles.button_div}>
+          <Button title="Growl it :)" onPress={() => _handleSubmit()}></Button>
+        </View>
       </View>
     );
 }
@@ -38,10 +39,20 @@ export default CreateGrowl = props => {
 
 const styles = StyleSheet.create({
   textarea: {
-    height: 140,
-    borderColor: "gray",
+    borderColor: "#FFFFFF",
     borderWidth: 1,
+    width: '80%',
   },
+  main:{
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    height: '20%',
+  },
+  button_div:{
+    width: '20%'
+  }
 });
 
 

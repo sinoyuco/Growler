@@ -5,10 +5,16 @@ const GrowlsSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
+        // type: Objecy,
+        // required: true
     },
     text: {
         type: String,
         required: true
+    },
+    handle:{
+        type: String,
+        required: false
     },
     // add media
     date: {

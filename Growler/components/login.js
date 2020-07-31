@@ -3,8 +3,8 @@ import {useSelector, useDispatch} from 'react-redux';
 import { useFonts, Lobster_400Regular } from "@expo-google-fonts/dev";
 import { AppLoading } from 'expo';
 // import {bindActionCreators} from 'redux';
-import { Button, StyleSheet, View, Text, TextInput, ImageBackground } from 'react-native';
-import {login, logout} from '../actions/session_actions';
+import { Button, StyleSheet, View, Text, TextInput, ImageBackground, TouchableOpacity } from 'react-native';
+import {login} from '../actions/session_actions';
 
 
 
@@ -31,10 +31,6 @@ const Login = ({ navigation }) => {
                 navigation.navigate('Feed')
             }
         });
-    }
-
-    const _handleLogout = () => {
-        dispatch(logout()).then(() => navigation.navigate('Landing'));
     }
 
 
@@ -77,10 +73,29 @@ const Login = ({ navigation }) => {
         input_parent: {
             position: 'relative',
             width: '80%',
+        },
+        login_button:{
+            padding: 20,
+            width: '30%',
+            borderRadius: 10,
+            backgroundColor: '#663a82'
+        },
+        login_button_text:{
+            fontSize: 20,
+            color: '#FFFFFF',
+            fontFamily: "Lobster_400Regular",
+            textAlign: 'center'
+        },
+        not_a_member:{
+            padding: 20,
+            width: '50%',
+            borderRadius: 10,
+            backgroundColor: '#663a82',
+            marginTop: 20
         }
     });
 
-    const logout_button = user ? <Button title="Logout" onPress={() => _handleLogout()}></Button> : null;
+    // const logout_button = user ? <Button title="Logout" onPress={() => _handleLogout()}></Button> : null;
 
     const email_error = errors.email ? <Text style={styles.error_text}>{errors.email}</Text> : null;
     const password_error = errors.password ? <Text style={styles.error_text}>{errors.password}</Text> : null;
@@ -92,7 +107,6 @@ const Login = ({ navigation }) => {
         <ImageBackground source={background_image} style={{ width: '100%', height: '100%' }}>
             <View style={styles.main}>
                 <Text style={styles.mainheader}>Login</Text>
-                {logout_button}
 
                 <View style={styles.input_parent}>
                     <TextInput
@@ -114,13 +128,16 @@ const Login = ({ navigation }) => {
                     />
                         {password_error}
                 </View>
-                <Button
+                <TouchableOpacity
+                    style={styles.login_button}
                     onPress={() => _handleLogin()}
-                    title="Login"
-                    color="#841584"
-                />
+                >
+                    <Text style={styles.login_button_text}>Login</Text>
+                </TouchableOpacity>
 
-                <Button title="Not a member? Sign up" onPress={() => navigation.navigate('SignUp')}></Button>
+                <TouchableOpacity style={styles.not_a_member} onPress={() => navigation.navigate('SignUp')}>
+                    <Text style={styles.login_button_text}>Not a member? Sign up</Text>
+                </TouchableOpacity>
             </View>
         </ImageBackground>
     ); 

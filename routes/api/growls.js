@@ -30,7 +30,7 @@ router.get('/:id', (req, res) => {
         );
 });
 
-router.post('/growl',
+router.post('/',
     passport.authenticate('jwt', { session: false }),
     (req, res) => {
         const { errors, isValid } = validateGrowlInput(req.body);
@@ -44,6 +44,7 @@ router.post('/growl',
         const newGrowl = new Growl({
             text: req.body.text,
             user: req.user.id,
+            handle: req.user.handle
         });
 
         newGrowl.save().then(growl => res.json(growl));
