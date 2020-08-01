@@ -35,8 +35,6 @@ router.post('/',
     (req, res) => {
         const { errors, isValid } = validateGrowlInput(req.body);
 
-        console.log(req.user);
-
         if (!isValid) {
             return res.status(400).json(errors);
         }
@@ -47,7 +45,8 @@ router.post('/',
             handle: req.user.handle
         });
 
-        newGrowl.save().then(growl => res.json(growl));
+        newGrowl.save()
+        .then(growl => res.json(growl));
     }
 );
 module.exports = router;

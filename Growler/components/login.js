@@ -24,7 +24,6 @@ const Login = ({ navigation }) => {
     const errors = useSelector(state => state.errors.session);
 
     const _handleLogin = () => {
-        debugger;
         const data = {email: email, password: password}
         dispatch(login(data)).then((res) => {
             if(res.type === 'RECEIVE_CURRENT_USER'){
@@ -83,7 +82,6 @@ const Login = ({ navigation }) => {
         login_button_text:{
             fontSize: 20,
             color: '#FFFFFF',
-            fontFamily: "Lobster_400Regular",
             textAlign: 'center'
         },
         not_a_member:{

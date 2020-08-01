@@ -17,11 +17,9 @@ const SessionReducer = (state = initialState, action) => {
     case RECEIVE_SESSION_ERRORS:
       return Object.assign({}, action.errors);
     case RECEIVE_CURRENT_USER:
-      debugger;
       return Object.assign({}, {
         ...state, isAuthenticated: !!action.user, user: action.user});
     case RECEIVE_USER_LOGOUT:
-      debugger;
       return Object.assign({}, { isAuthenticated: false, user: null });
     case CLEAR_SESSION_ERRORS:
       return [];

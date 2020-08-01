@@ -74,7 +74,6 @@ const styles = StyleSheet.create({
     start_growling_text:{
         fontSize: 20,
         color: '#FFFFFF',
-        fontFamily: "Lobster_400Regular",
         textAlign: 'center'
     }
 });

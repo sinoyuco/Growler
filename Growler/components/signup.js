@@ -2,7 +2,7 @@ import React, { Component, useState, useReducer } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFonts, Lobster_400Regular } from "@expo-google-fonts/dev";
 // import {bindActionCreators} from 'redux';
-import { Button, StyleSheet, View, Text, TextInput, ImageBackground } from 'react-native';
+import { Button, StyleSheet, View, Text, TextInput, ImageBackground, TouchableOpacity } from 'react-native';
 import { signup } from '../actions/session_actions';
 import { AppLoading } from 'expo';
 // import DatePicker from 'react-native-date-picker'
@@ -48,7 +48,6 @@ const SignUp = ({ navigation }) => {
 
     const handleSignup = () => {
         const user = {name: name, handle: handle, birthday: birthday, email: email, password: password, password2: password2}
-        debugger;
         dispatch(signup(user)).then((res) => {
             if(res.type === 'RECEIVE_CURRENT_USER'){
                 navigation.navigate('Feed');
@@ -59,50 +58,7 @@ const SignUp = ({ navigation }) => {
     let birthday_button_text = birthday.getFullYear() === new Date().getFullYear() && birthday.getMonth() === new Date().getMonth() && birthday.getDate() === new Date().getDate() ? 'Enter Birthday' : birthday.toLocaleDateString();
     
 
-    const styles = StyleSheet.create({
-        input: {
-            height: 50,
-            borderColor: 'gray',
-            borderWidth: 1,
-            width: '100%',
-            marginTop: 10,
-            marginRight: 'auto',
-            marginBottom: 30,
-            marginLeft: 'auto',
-            borderRadius: 10,
-            borderWidth: 1,
-            borderColor: '#FFFFFF',
-            color: '#FFFFFF',
-            paddingLeft: 15,
-            fontSize: 20
-        },
-        mainheader: {
-            color: '#FFFFFF',
-            fontFamily: "Lobster_400Regular",
-            textAlign: 'center',
-            fontSize: 70,
-            marginBottom: 30
-        },
-        main: {
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
-        datebutton: {
-            marginBottom: 30
-        },
-        error_text:{
-            position: 'absolute',
-            borderWidth: 1,
-            borderColor: '#FF6347',
-            backgroundColor: '#FF6347',
-            color: '#FFFFFF',
-            bottom: 23
-        },
-        input_parent: {
-            position: 'relative',
-            width: '80%',
-        }
-    });
+
 
     const name_error = errors.name ? <Text style={styles.error_text}>{errors.name}</Text> : null;
     const handle_error = errors.handle ? <Text style={styles.error_text}>{errors.handle}</Text> : null;
@@ -154,7 +110,11 @@ const SignUp = ({ navigation }) => {
                     onChange={this.onDateChange}
                     display="calendar"
                 /> */}
-                <Button style={styles.datebutton} title={birthday_button_text} onPress={showDatePicker} />
+
+                <TouchableOpacity style={styles.datebutton} onPress={showDatePicker}>
+                    <Text style={styles.datebutton_text}>{birthday_button_text}</Text>
+                </TouchableOpacity>
+
                 <DateTimePickerModal
                     isVisible={isDatePickerVisible}
                     mode="date"
@@ -186,13 +146,13 @@ const SignUp = ({ navigation }) => {
                         {password2_error}
                     </View>
 
-                <Button
-                    onPress={() => handleSignup()}
-                    title="Register"
-                    color="#841584"
-                />
+                <TouchableOpacity style={styles.register_button} onPress={() => handleSignup()}>
+                    <Text style={styles.register_button_text}>Register</Text>
+                </TouchableOpacity>
 
-                <Button title="Already a member? Log In" onPress={() => navigation.navigate('Login')}></Button>
+                <TouchableOpacity style={styles.already_a_member} onPress={() => navigation.navigate('Login')}>
+                    <Text style={styles.register_button_text}>Already a member? Log In</Text>
+                </TouchableOpacity>
             </View>
         </ImageBackground>
     );
@@ -200,5 +160,76 @@ const SignUp = ({ navigation }) => {
     
 
 }
+
+    const styles = StyleSheet.create({
+        input: {
+            height: 50,
+            borderColor: 'gray',
+            borderWidth: 1,
+            width: '100%',
+            marginTop: 10,
+            marginRight: 'auto',
+            marginBottom: 30,
+            marginLeft: 'auto',
+            borderRadius: 10,
+            borderWidth: 1,
+            borderColor: '#FFFFFF',
+            color: '#FFFFFF',
+            paddingLeft: 15,
+            fontSize: 20
+        },
+        mainheader: {
+            color: '#FFFFFF',
+            fontFamily: "Lobster_400Regular",
+            textAlign: 'center',
+            fontSize: 70,
+            marginBottom: 30
+        },
+        main: {
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        datebutton: {
+            marginBottom: 20,
+            borderColor: '#FFFFFF',
+            borderWidth: 1,
+            padding: 10,
+            borderRadius: 10
+        },
+        datebutton_text: {
+            color: "#FFFFFF",
+            fontSize: 20
+        },
+        error_text:{
+            position: 'absolute',
+            borderWidth: 1,
+            borderColor: '#FF6347',
+            backgroundColor: '#FF6347',
+            color: '#FFFFFF',
+            bottom: 23
+        },
+        input_parent: {
+            position: 'relative',
+            width: '80%',
+        },
+        register_button:{
+            padding: 20,
+            width: '50%',
+            borderRadius: 10,
+            backgroundColor: '#663a82',
+        },
+        register_button_text:{
+            fontSize: 20,
+            color: '#FFFFFF',
+            textAlign: 'center'
+        },
+        already_a_member:{
+            padding: 20,
+            width: '80%',
+            borderRadius: 10,
+            backgroundColor: '#663a82',
+            marginTop: 20
+        }
+    });
 
 export default SignUp;

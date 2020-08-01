@@ -5,7 +5,7 @@ import {
   RECEIVE_GROWL_ERRORS,
 } from "../actions/growl_actions";
 
-const GrowlsReducer = (state = { all: {}, user: {}, new: undefined },action) => {
+const GrowlsReducer = (state = { all: {}, user: {}, new: undefined, errors:{} },action) => {
   Object.freeze(state);
   let newState = Object.assign({}, state);
   switch (action.type) {
@@ -23,7 +23,8 @@ const GrowlsReducer = (state = { all: {}, user: {}, new: undefined },action) => 
       return newState;
     case RECEIVE_GROWL_ERRORS:
       debugger;
-    return newState.errors = action.errors;
+      newState.errors = action.errors;
+      return newState
     default:
       return state;
   }

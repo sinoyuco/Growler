@@ -39,10 +39,8 @@ export const fetchGrowls = () => (dispatch) => {
 export const fetchUserGrowls = (id) => (dispatch) => {
 
     return APIUtil.getUserGrowls(id).then((growls) => {
-            debugger;
             dispatch(receiveUserGrowls(growls))
         }).catch((err) => {
-            debugger;
             console.log(err);
         })
 };
@@ -54,8 +52,7 @@ export const postGrowl = (data) => dispatch => {
         debugger;
         dispatch(receiveNewGrowl(growl))})
     .catch(err => {
-        debugger 
-        return dispatch(receiveGrowlErrors(err))
+        return dispatch(receiveGrowlErrors(err.response.data))
         });
 }
 
