@@ -28,19 +28,19 @@ const receiveGrowlErrors = (errors) => ({
 export const fetchGrowls = () => (dispatch) => {
     return APIUtil.getGrowls()
         .then((growls) =>{
-            debugger;
         dispatch(receiveGrowls(growls))
         }).catch((err) => {
-            debugger;
             console.log(err)
         });
 }
 
 export const fetchUserGrowls = (id) => (dispatch) => {
-
+    debugger;
     return APIUtil.getUserGrowls(id).then((growls) => {
+            debugger;
             dispatch(receiveUserGrowls(growls))
         }).catch((err) => {
+            debugger;
             console.log(err);
         })
 };

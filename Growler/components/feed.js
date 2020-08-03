@@ -20,7 +20,6 @@ export default Feed = ({navigation}) => {
     const user = useSelector((state) => state.session.user);
     const dispatch = useDispatch();
 
-    debugger;
 
     const _handleLogout = () => {
         // logout;
@@ -34,7 +33,7 @@ export default Feed = ({navigation}) => {
         dispatch(fetchGrowls());
     },[]);
 
-
+    
     const background_image = { uri: 'https://hiptrip-aa-seed.s3.amazonaws.com/Growler/landingback.png' }
     const handle = user ? user.handle : null;
     const showGrowls = growls.length ? growls.map(ele => <GrowlItem growl={ele} key={ele.id}/>) : <Text>Your growls feed is empty :(</Text>;
