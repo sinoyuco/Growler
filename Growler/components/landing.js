@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, StyleSheet, View, Text, ImageBackground, Image } from 'react-native';
+import { Button, StyleSheet, View, Text, ImageBackground, Image, TouchableOpacity } from 'react-native';
 import { useFonts, Lobster_400Regular } from "@expo-google-fonts/dev";
 import { AppLoading } from 'expo';
 
@@ -24,13 +24,16 @@ const LandingScreen = ({ navigation }) => {
                 <Image source={tiger_image} style={styles.tiger}/>
             </View>
             
-            <Button
-                title="Start Growling"
-                onPress={() =>
-                    navigation.navigate('Login')
-                }
-            />
-
+            <View style={{width: '100%', alignContent: 'center', alignItems:'center'}}>
+                <TouchableOpacity
+                    onPress={() =>
+                        navigation.navigate('Login')
+                    }
+                    style={styles.start_growling}
+                >
+                    <Text style={styles.start_growling_text}>Start Growling</Text>
+                </TouchableOpacity>
+            </View>
             {/* <Text><div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></Text> */}
         </View>
         </ImageBackground>
@@ -58,12 +61,21 @@ const styles = StyleSheet.create({
         height: 250,
         alignContent: 'center'
    },
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
+    main:{
         alignItems: 'center',
         justifyContent: 'center',
     },
+    start_growling:{
+        padding: 10,
+        width: '30%',
+        borderRadius: 10,
+        backgroundColor: '#663a82',
+    },
+    start_growling_text:{
+        fontSize: 20,
+        color: '#FFFFFF',
+        textAlign: 'center'
+    }
 });
 
 

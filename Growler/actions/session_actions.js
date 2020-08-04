@@ -38,24 +38,19 @@ export const login = (userData) => dispatch => {
         const { token } = res.data;
         saveData("jwtToken", token);
         APIUtil.setAuthToken(token);
-         dispatch(receiveCurrentUser(jwt_decode(token)));
+        return dispatch(receiveCurrentUser(jwt_decode(token)));
     })
      .catch(err => {
-         debugger;
-        dispatch(receiveSessionErrors(err.response.data));
+        return dispatch(receiveSessionErrors(err.response.data));
     })
 };
 
 export const signup = user => dispatch => {
-    debugger;
-    APIUtil.signup(user).then(() => {
-        debugger;
-        dispatch(receiveCurrentUser(user))
+    return APIUtil.signup(user).then(() => {
+        return dispatch(receiveCurrentUser(user))
     }, err => {
-        debugger;
-        dispatch(receiveErrors(err.response.data))}
+        return dispatch(receiveSessionErrors(err.response.data))}
     ).catch(err => {
-        debugger;
         console.log(err);
     });
 };
@@ -63,7 +58,7 @@ export const signup = user => dispatch => {
 export const logout = () => (dispatch) => {
     remove("jwtToken");
     APIUtil.setAuthToken(false);
-    dispatch(logoutUser());
+    return dispatch(logoutUser());
 };
 
 

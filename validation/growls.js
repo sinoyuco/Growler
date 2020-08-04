@@ -7,12 +7,12 @@ module.exports = function validateGrowlInput(data) {
     data.text = validText(data.text) ? data.text : '';
 
     if (!Validator.isLength(data.text, { min: 5, max: 140 })) {
-        errors.text = 'Tweet must be between 5 and 140 characters';
+        errors.text = 'Growl must be between 5 and 140 characters';
     }
 
-    if (Validator.isEmpty(data.text)) {
-        errors.text = 'Text field is required';
-    }
+    // if (Validator.isEmpty(data.text)) {
+    //     errors.text = 'Text field is required';
+    // }
 
     return {
         errors,

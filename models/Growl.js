@@ -1,14 +1,20 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const GrowlSchema = new Schema({
+const GrowlsSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'users'
+        ref: 'User'
+        // type: Objecy,
+        // required: true
     },
     text: {
         type: String,
         required: true
+    },
+    handle:{
+        type: String,
+        required: false
     },
     // add media
     date: {
@@ -17,4 +23,4 @@ const GrowlSchema = new Schema({
     }
 });
 
-module.exports = Growl = mongoose.model('growl', GrowlSchema);
+module.exports = Growl = mongoose.model('growls', GrowlsSchema);

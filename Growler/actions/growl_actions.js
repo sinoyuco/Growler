@@ -7,17 +7,17 @@ export const RECEIVE_NEW_GROWL = "RECEIVE_NEW_GROWL";
 
 const receiveGrowls = (growls) => ({
     type: RECEIVE_GROWLS,
-    growl
+    growls
 });
 
-export const receiveUserGrowls = (growls) => ({
+const receiveUserGrowls = (growls) => ({
   type: RECEIVE_USER_GROWLS,
-  growls,
+  growls
 });
 
-export const receiveNewGrowl = (growl) => ({
+const receiveNewGrowl = (growl) => ({
   type: RECEIVE_NEW_GROWL,
-  growl,
+  growl
 });
 
 const receiveGrowlErrors = (errors) => ({
@@ -27,16 +27,33 @@ const receiveGrowlErrors = (errors) => ({
 
 export const fetchGrowls = () => (dispatch) => {
     return APIUtil.getGrowls()
-        .then((growls) => dispatch(receiveGrowls(growls)))
-        .catch((err) => console.log(err))};
+        .then((growls) =>{
+        dispatch(receiveGrowls(growls))
+        }).catch((err) => {
+            console.log(err)
+        });
+}
 
-export const fetchUserGrowls = (id) => (dispatch) =>{
-    return APIUtil.getUserGrowls(id)
-        .then((growls) => dispatch(receiveUserGrowls(growls)))
-        .catch((err) => console.log(err))};
+export const fetchUserGrowls = (id) => (dispatch) => {
+    debugger;
+    return APIUtil.getUserGrowls(id).then((growls) => {
+            debugger;
+            dispatch(receiveUserGrowls(growls))
+        }).catch((err) => {
+            debugger;
+            console.log(err);
+        })
+};
 
-export const postGrowl = (growl) => dispatch => {
-    return APIUtil.postGrowl(growl)
-    .then(growl => dispatch(receiveGrowl(growl)))
-    .catch(err => receiveGrowlErrors(err))};
+export const postGrowl = (data) => dispatch => {
+    debugger
+    return APIUtil.postGrowl(data)
+    .then(growl => {
+        debugger;
+        dispatch(receiveNewGrowl(growl))})
+    .catch(err => {
+        return dispatch(receiveGrowlErrors(err.response.data))
+        });
+}
+
 

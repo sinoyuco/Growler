@@ -31,6 +31,10 @@ module.exports = function validateRegisterInput(data) {
         errors.birthday = 'Birthday field is required';
     }
 
+    if(data.birthday >= new Date()){
+        errors.birthday = 'Birthday cannot be in the future'
+    }
+
     if (!Validator.isEmail(data.email)) {
         errors.email = 'Email is invalid';
     }

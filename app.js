@@ -17,20 +17,13 @@ mongoose
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.log(err));
     
-app.use(passport.initialize());
-
-
-
-require('./config/passport')(passport);
-
-
 app.use(bodyParser.urlencoded({
     extended: false
 }));
-
-
 app.use(bodyParser.json());
 
+app.use(passport.initialize());
+require('./config/passport')(passport);
 app.use("/api/users", users);
 app.use("/api/growls", growls);
 
