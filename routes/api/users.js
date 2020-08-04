@@ -6,9 +6,39 @@ const keys = require('../../config/keys');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const multer = require('multer');
-const upload = multer({ dest: '../Growler/assets/uploads'}); 
+const { v4: uuidv4 } = require('uuid');
 const login_validations = require('../../validation/login');
 const register_validations = require('../../validation/register');
+
+
+const DIR = './assets/uploads/'
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, DIR);
+    },
+    filename: (req, file, cb) => {
+        const fileName = file.originalname.toLowerCase().split(' ').join('-');
+        cb(null, uuidv4() + '-' + fileName)
+    }
+});
+
+var upload = multer({
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
+            cb(null, true);
+        } else {
+            cb(null, false);
+            return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+        }
+    }
+});
+
+
+
+
+
 
 
 router.get('/all', (req, res) => {
@@ -47,7 +77,8 @@ router.post('/register', (req, res) => {
                 password: req.body.password,
                 password2: req.body.password2,
                 name: req.body.name,
-                birthday: req.body.birthday
+                birthday: req.body.birthday,
+                profileImg: ''
             });
 
             bcrypt.genSalt(10, (err, salt) => {
@@ -111,49 +142,19 @@ router.post('/login', (req, res) => {
 
 });
 
-// router.post('/:user_id/upload', upload.single('profile'), (req,res) => {
-//     User.findById(req.params.user_id)
-//     .then((user) => {
-        
-//         const file = req.file;
-        
+router.patch('/:user_id/upload', upload.single('profileImg'), (req,res) => {
+    const file = req.file;
+    const url = req.protocol + '://' + req.get('host');
 
-//         let s3bucket = new AWS.S3({
-//             accessKeyId: keys.aws_access_key_id,
-//             secretAccessKey: keys.aws_secret_access_key,
-//             region: keys.aws_region,
-//         });
+    User.findByIdAndUpdate({_id: req.params.user_id}, {profileImg: url + '/assets/uploads/'+ file.filename}, function(err, user){
+        if(err){
+            res.send(err)
+        }else{
+            res.send(user)
+        }
+    });
 
-//         let params = {
-//             Bucket: keys.aws_bucket_name,
-//             Key: file.originalname,
-//             Body: file.buffer,
-//             ContentType: file.mimetype,
-//             ACL: "public-read"
-//         };
-
-//         s3bucket.upload(params, function (err, data) {
-//             if (err) {
-//                 res.status(500).json({ error: true, Message: err });
-//             } else {
-//                 res.send({ data });
-//                 var newImageUploaded = {
-//                     description: req.body.description,
-//                     fileLink: s3FileURL + file.originalname,
-//                     s3_key: params.Key
-//                 };
-//                 var document = new DOCUMENT(newImageUploaded);
-//                 document.save(function (error, newFile) {
-//                     if (error) {
-//                         throw error;
-//                     }
-//                 });
-//             }
-//         });
-
-
-//     });
-// });
+});
 
 
 module.exports = router;
