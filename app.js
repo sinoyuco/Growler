@@ -12,6 +12,8 @@ app.get("/", (req, res) => res.send("Hello World"));
 
 app.use(cors());
 
+app.use('/public', express.static('public'));
+
 mongoose
     .connect(db, { useNewUrlParser: true })
     .then(() => console.log('Connected to MongoDB'))

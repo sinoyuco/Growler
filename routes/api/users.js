@@ -11,7 +11,7 @@ const login_validations = require('../../validation/login');
 const register_validations = require('../../validation/register');
 
 
-const DIR = './assets/uploads/'
+const DIR = './public/'
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -121,7 +121,8 @@ router.post('/login', (req, res) => {
                     handle: user.handle,
                     email: user.email,
                     name: user.name,
-                    birthday: user.birthday
+                    birthday: user.birthday,
+                    profileImg: user.profileImg
                 }
 
                 jwt.sign(
@@ -146,7 +147,7 @@ router.patch('/:user_id/upload', upload.single('profileImg'), (req,res) => {
     const file = req.file;
     const url = req.protocol + '://' + req.get('host');
 
-    User.findByIdAndUpdate({_id: req.params.user_id}, {profileImg: url + '/assets/uploads/'+ file.filename}, function(err, user){
+    User.findByIdAndUpdate({_id: req.params.user_id}, {profileImg: url + '/public/'+ file.filename}, function(err, user){
         if(err){
             res.send(err)
         }else{

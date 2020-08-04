@@ -42,7 +42,8 @@ router.post('/',
         const newGrowl = new Growl({
             text: req.body.text,
             user: req.user.id,
-            handle: req.user.handle
+            handle: req.user.handle,
+            profileImg: req.user.profileImg
         });
 
         newGrowl.save()

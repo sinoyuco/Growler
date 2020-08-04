@@ -58,7 +58,13 @@ const GrowlItem = (props) => {
         }
     });
 
-    const silhouette = {uri: 'https://hiptrip-aa-seed.s3.amazonaws.com/Growler/silhouette.jpg'}
+    let silhouette;
+    if(props.growl.profileImg===""){
+        silhouette = {uri: 'https://hiptrip-aa-seed.s3.amazonaws.com/Growler/silhouette.jpg'}
+    }else{
+        silhouette = {uri: `http://192.168.1.7:5000/${props.growl.profileImg.split('/')[3]}/${props.growl.profileImg.split('/')[4]}`}
+    }
+
 
     const DateFormat = (dateString) => {
         let splitted = dateString.split('-');

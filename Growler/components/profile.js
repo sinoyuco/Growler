@@ -7,6 +7,8 @@ import { Button, StyleSheet, View, Text, TextInput, ScrollView, ImageBackground,
 import { logout } from '../actions/session_actions';
 import { fetchUserGrowls } from '../actions/growl_actions';
 import GrowlItem from './growl_item'
+import PhotoUpload from 'react-native-photo-upload'
+// import ImagePicker from 'react-native-image-picker'
 
 export default Profile = ({navigation}) => {
 
@@ -40,8 +42,16 @@ export default Profile = ({navigation}) => {
         return `${month}/${day}/${year}`;
     }
     
-    const background_image = { uri: 'https://hiptrip-aa-seed.s3.amazonaws.com/Growler/landingback.png' }
-    const silhouette = { uri: 'https://hiptrip-aa-seed.s3.amazonaws.com/Growler/silhouette.jpg' }
+    const background_image = { uri: 'http://hiptrip-aa-seed.s3.amazonaws.com/Growler/landingback.png' }
+    // const silhouette = { uri: 'https://hiptrip-aa-seed.s3.amazonaws.com/Growler/silhouette.jpg' }
+
+    let silhouette;
+    if(user.profileImg === ''){
+        silhouette = { uri: 'https://hiptrip-aa-seed.s3.amazonaws.com/Growler/silhouette.jpg' }
+    }else{
+        silhouette = { uri: "http://192.168.1.7:5000/public/d6c810e1-8eba-47ec-b36a-9f8147faffd9-bill_nye.jpg"}
+    }
+
     const showGrowls = growls.length ? growls.map(ele => <GrowlItem growl={ele} key={ele.id} />) : <Text>You have not growled yet.</Text>;
 
     const growls_length = growls.length ? <Text style={styles.growl_length}>{growls.length} growls:</Text> : null;
@@ -62,7 +72,14 @@ export default Profile = ({navigation}) => {
                     <View style={styles.header}>
                         <View style={{flex: 1, flexDirection: 'row'}}>
                             <View style={styles.header_left}>
-                                <Image style={styles.profile_picture} source={silhouette} />
+
+                                <PhotoUpload onPhotoSelect={(res) => {
+                                    debugger;
+                                    if(res){console.log(res)}
+                                }}>
+                                    <Image style={styles.profile_picture} source={silhouette} />
+                                </PhotoUpload>
+
                             </View>
 
                             <View style={styles.header_mid}>
