@@ -12,7 +12,11 @@ const GrowlsSchema = new Schema({
         type: String,
         required: true
     },
-    handle:{
+    handle: {
+        type: String,
+        required: false
+    },
+    profileImg: {
         type: String,
         required: false
     },

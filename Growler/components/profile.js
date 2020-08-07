@@ -4,11 +4,10 @@ import { useFonts, Lobster_400Regular } from "@expo-google-fonts/dev";
 import { AppLoading } from 'expo';
 // import {bindActionCreators} from 'redux';
 import { Button, StyleSheet, View, Text, TextInput, ScrollView, ImageBackground, TouchableOpacity, Image } from 'react-native';
-import { logout } from '../actions/session_actions';
+import { logout, updatePhoto } from '../actions/session_actions';
 import { fetchUserGrowls } from '../actions/growl_actions';
 import GrowlItem from './growl_item'
-import PhotoUpload from 'react-native-photo-upload'
-// import ImagePicker from 'react-native-image-picker'
+import * as ImagePicker from 'expo-image-picker';
 
 export default Profile = ({navigation}) => {
 
@@ -20,8 +19,9 @@ export default Profile = ({navigation}) => {
     const growls = useSelector((state) => Object.values(state.growls.user));
     const user = useSelector((state) => state.session.user);
     const dispatch = useDispatch();
+
+    const [selectedImage, setSelectedImage] = useState(null);
     
-    debugger;
     
     useEffect(() => {
         dispatch(fetchUserGrowls(user.id));
@@ -41,22 +41,44 @@ export default Profile = ({navigation}) => {
         let day = splitted[2].slice(0, 2);
         return `${month}/${day}/${year}`;
     }
+
+    let openImagePickerAsync = async () => {
+        let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+
+        if (permissionResult.granted === false) {
+            alert('Permission to access camera roll is required!');
+            return;
+        }
+
+        let pickerResult = await ImagePicker.launchImageLibraryAsync();
+
+        if (pickerResult.cancelled === true) {
+            return;
+        }
+        // setSelectedImage({ localUri: pickerResult.uri });
+        // debugger;
+
+        let formData = new FormData();
+        formData.append('photo', {uri: pickerResult.uri, filename: `${Math.floor(Math.random()*1000000)}photo`, type: pickerResult.type});
+
+        dispatch(updatePhoto(user.id, formData));
+    };
+    
     
     const background_image = { uri: 'http://hiptrip-aa-seed.s3.amazonaws.com/Growler/landingback.png' }
-    // const silhouette = { uri: 'https://hiptrip-aa-seed.s3.amazonaws.com/Growler/silhouette.jpg' }
 
     let silhouette;
-    if(user.profileImg === ''){
+    debugger;
+    if (user && user.profileImg && user.profileImg !== "") {
+        silhouette = { uri: `http://192.168.1.44:5000/${user.profileImg.split('/')[3]}/${user.profileImg.split('/')[4]}` }
+    } else {
         silhouette = { uri: 'https://hiptrip-aa-seed.s3.amazonaws.com/Growler/silhouette.jpg' }
-    }else{
-        silhouette = { uri: "http://192.168.1.7:5000/public/d6c810e1-8eba-47ec-b36a-9f8147faffd9-bill_nye.jpg"}
     }
 
     const showGrowls = growls.length ? growls.map(ele => <GrowlItem growl={ele} key={ele.id} />) : <Text>You have not growled yet.</Text>;
 
     const growls_length = growls.length ? <Text style={styles.growl_length}>{growls.length} growls:</Text> : null;
 
-    debugger;
 
     if (!fontsLoaded || !user) {
         return <AppLoading />
@@ -65,21 +87,17 @@ export default Profile = ({navigation}) => {
             <ImageBackground source={background_image} style={{ width: '100%', height: '100%' }}>
                 <View style={styles.screen}>
 
-                    <View style={{height: '15%'}}>
+                    <View style={{height: '15%', position: 'relative'}}>
                         <Text style={styles.mainheader}>Profile</Text>
                     </View>
 
                     <View style={styles.header}>
                         <View style={{flex: 1, flexDirection: 'row'}}>
                             <View style={styles.header_left}>
-
-                                <PhotoUpload onPhotoSelect={(res) => {
-                                    debugger;
-                                    if(res){console.log(res)}
-                                }}>
-                                    <Image style={styles.profile_picture} source={silhouette} />
-                                </PhotoUpload>
-
+                                    <TouchableOpacity onPress={openImagePickerAsync} style={{position: 'relative'}}>
+                                        <Image style={styles.profile_picture} source={silhouette} />
+                                    <View style={styles.plus_icon}><Text style={styles.plus_icon_text}>+</Text></View>
+                                    </TouchableOpacity>
                             </View>
 
                             <View style={styles.header_mid}>
@@ -135,8 +153,8 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     logout_button: {
-        padding: 10,
-        borderRadius: 10,
+        padding: 30,
+        borderRadius: 30,
         backgroundColor: '#663a82',
         minHeight: '30%'
     },
@@ -176,5 +194,18 @@ const styles = StyleSheet.create({
     profile_info:{
         marginBottom: 3,
         color : '#FFFFFF'
+    },
+    plus_icon:{
+        position: 'absolute',
+        backgroundColor: '#7b7b7b',
+        height: 20,
+        width: 20,
+        borderRadius: 10,
+        right: 6,
+        bottom: 6,
+    },
+    plus_icon_text:{
+        textAlign: 'center',
+        color: '#FFFFFF'
     }
 });

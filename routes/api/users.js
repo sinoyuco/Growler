@@ -39,14 +39,12 @@ var upload = multer({
 
 
 
-
-
 router.get('/all', (req, res) => {
-     User.find()
+    User.find()
         .sort({ date: -1 })
         .then(users => res.json(users))
         .catch(err => res.status(404).json({ nogrowlsfound: 'No growls found' }));
-}); 
+});
 
 router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
     res.json({
@@ -59,40 +57,40 @@ router.get('/current', passport.authenticate('jwt', { session: false }), (req, r
 router.post('/register', (req, res) => {
 
 
-    const {errors, isValid} = register_validations(req.body);
+    const { errors, isValid } = register_validations(req.body);
 
-    if(!isValid){
+    if (!isValid) {
         return res.status(400).json(errors);
     }
 
-    User.findOne({email: req.body.email.toLowerCase()})
-    .then(user => {
-        
-        if (user) {
-            return res.status(400).json({email: "A user already exists with this email"})
-        } else {
-            const newUser = new User({
-                handle: req.body.handle,
-                email: req.body.email.toLowerCase(),
-                password: req.body.password,
-                password2: req.body.password2,
-                name: req.body.name,
-                birthday: req.body.birthday,
-                profileImg: ''
-            });
+    User.findOne({ email: req.body.email.toLowerCase() })
+        .then(user => {
 
-            bcrypt.genSalt(10, (err, salt) => {
-                bcrypt.hash(newUser.password, salt, (err, hash) => {
-                    if (err) throw err;
-                    newUser.password = hash;
-                    newUser.save()
-                    .then(user => res.json(user))
-                    .catch(err => console.log(err));
+            if (user) {
+                return res.status(400).json({ email: "A user already exists with this email" })
+            } else {
+                const newUser = new User({
+                    handle: req.body.handle,
+                    email: req.body.email.toLowerCase(),
+                    password: req.body.password,
+                    password2: req.body.password2,
+                    name: req.body.name,
+                    birthday: req.body.birthday,
+                    profileImg: ''
+                });
 
+                bcrypt.genSalt(10, (err, salt) => {
+                    bcrypt.hash(newUser.password, salt, (err, hash) => {
+                        if (err) throw err;
+                        newUser.password = hash;
+                        newUser.save()
+                            .then(user => res.json(user))
+                            .catch(err => console.log(err));
+
+                    })
                 })
-            })
-        }
-    })
+            }
+        })
 })
 
 router.post('/login', (req, res) => {
@@ -107,50 +105,54 @@ router.post('/login', (req, res) => {
     const password = req.body.password;
 
     User.findOne({ email })
-    .then(user => {
+        .then(user => {
 
-        if (!user) {
-            return res.status(404).json({email: 'This user does not exist'})
-        } 
-        bcrypt.compare(password, user.password)
-        .then(isMatch => {
-          
-            if(isMatch) {
-                const payload = {
-                    id: user.id,
-                    handle: user.handle,
-                    email: user.email,
-                    name: user.name,
-                    birthday: user.birthday,
-                    profileImg: user.profileImg
-                }
-
-                jwt.sign(
-                    payload, 
-                    keys.secretOrKey,
-                    { expiresIn: 3600 },
-                    (err, token) => {
-                        res.json({success: true,
-                        token: 'Bearer ' + token})
-                    }
-                )
-            } else {
-                return res.status(400).json({ password: 'Incorrect password' })
-
+            if (!user) {
+                return res.status(404).json({ email: 'This user does not exist' })
             }
+            bcrypt.compare(password, user.password)
+                .then(isMatch => {
+
+                    if (isMatch) {
+                        const payload = {
+                            id: user.id,
+                            handle: user.handle,
+                            email: user.email,
+                            name: user.name,
+                            birthday: user.birthday,
+                            profileImg: user.profileImg
+                        }
+
+                        jwt.sign(
+                            payload,
+                            keys.secretOrKey,
+                            { expiresIn: 3600 },
+                            (err, token) => {
+                                res.json({
+                                    success: true,
+                                    token: 'Bearer ' + token
+                                })
+                            }
+                        )
+                    } else {
+                        return res.status(400).json({ password: 'Incorrect password' })
+
+                    }
+                })
         })
-    })
 
 });
 
-router.patch('/:user_id/upload', upload.single('profileImg'), (req,res) => {
+router.patch('/:user_id/upload', upload.single('profileImg'), (req, res) => {
     const file = req.file;
     const url = req.protocol + '://' + req.get('host');
 
-    User.findByIdAndUpdate({_id: req.params.user_id}, {profileImg: url + '/public/'+ file.filename}, function(err, user){
-        if(err){
+    console.log(req.file);
+
+    User.findByIdAndUpdate({ _id: req.params.user_id }, { profileImg: url + '/public/' + file.filename }, function (err, user) {
+        if (err) {
             res.send(err)
-        }else{
+        } else {
             res.send(user)
         }
     });

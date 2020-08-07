@@ -25,7 +25,7 @@ export const logoutUser = () => ({
 export const receiveSessionErrors = errors => ({
     type: RECEIVE_SESSION_ERRORS,
     errors
-})
+});
 
 export const clearSessionErros = () => ({
     type: CLEAR_SESSION_ERRORS
@@ -61,4 +61,16 @@ export const logout = () => (dispatch) => {
     return dispatch(logoutUser());
 };
 
+export const updatePhoto = (user_id, formData) => (dispatch) =>{
+    debugger;
+    return APIUtil.updatePhoto(user_id, formData).then(() => {
+        debugger;
+        return dispatch(receiveCurrentUser(user))
+    }, err => {
+        return dispatch(receiveSessionErrors(err.response.data))
+    }
+    ).catch(err => {
+        console.log(err);
+    });
+}
 

@@ -59,10 +59,11 @@ const GrowlItem = (props) => {
     });
 
     let silhouette;
-    if(props.growl.profileImg===""){
-        silhouette = {uri: 'https://hiptrip-aa-seed.s3.amazonaws.com/Growler/silhouette.jpg'}
+    debugger;
+    if(props.growl.profileImg && props.growl.profileImg!==""){
+        silhouette = {uri: `http://192.168.1.44:5000/${props.growl.profileImg.split('/')[3]}/${props.growl.profileImg.split('/')[4]}`}
     }else{
-        silhouette = {uri: `http://192.168.1.7:5000/${props.growl.profileImg.split('/')[3]}/${props.growl.profileImg.split('/')[4]}`}
+        silhouette = {uri: 'https://hiptrip-aa-seed.s3.amazonaws.com/Growler/silhouette.jpg'}
     }
 
 

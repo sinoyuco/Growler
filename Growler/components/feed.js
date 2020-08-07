@@ -31,7 +31,7 @@ export default Feed = ({navigation}) => {
 
     useEffect(() => {
         dispatch(fetchGrowls());
-    },[]);
+    }, []);
 
     
     const background_image = { uri: 'https://hiptrip-aa-seed.s3.amazonaws.com/Growler/landingback.png' }

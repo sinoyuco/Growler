@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const mongoose = require('mongoose');
-const passport = require('passport');  
+const passport = require('passport');
 
 const Growl = require('../../models/Growl');
 const validateGrowlInput = require('../../validation/growls');
@@ -39,6 +39,8 @@ router.post('/',
             return res.status(400).json(errors);
         }
 
+        console.log(req.user);
+
         const newGrowl = new Growl({
             text: req.body.text,
             user: req.user.id,
@@ -46,8 +48,9 @@ router.post('/',
             profileImg: req.user.profileImg
         });
 
+
         newGrowl.save()
-        .then(growl => res.json(growl));
+            .then(growl => res.json(growl));
     }
 );
 module.exports = router;

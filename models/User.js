@@ -26,7 +26,7 @@ const UserSchema = new Schema({
         type: Date,
         required: true
     },
-    profileImg:{
+    profileImg: {
         type: String,
         required: false
     },
