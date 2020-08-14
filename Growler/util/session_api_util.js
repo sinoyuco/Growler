@@ -9,16 +9,16 @@ export const setAuthToken = (token) => {
 };
 
 export const signup = (userData) => {
-  return axios.post("http://192.168.1.44:5000/api/users/register", userData);
+  return axios.post("http://192.168.1.7:5000/api/users/register", userData);
 };
 
 export const login = (userData) => {
   // return axios.post("http://localhost:5500/api/users/login", userData);
-  return axios.post("http://192.168.1.44:5000/api/users/login", userData);
+  return axios.post("http://192.168.1.7:5000/api/users/login", userData);
 };
 
 
 export const updatePhoto = (user_id, formData) => {
   debugger;
-  return axios.patch(`http://192.168.1.44:5000/api/users/${user_id}/upload`, formData ,{ headers: {'content-type': 'multipart/form-data'}});
+  return axios.patch(`http://192.168.1.7:5000/api/users/${user_id}/upload`, formData ,{ headers: {'content-type': 'multipart/form-data'}});
 }

@@ -32,6 +32,15 @@ const Login = ({ navigation }) => {
         });
     }
 
+    const _demoLogin = () => {
+        const data = { email: 'a@a.com', password: 'password' }
+        dispatch(login(data)).then((res) => {
+            if (res.type === 'RECEIVE_CURRENT_USER') {
+                navigation.navigate('Feed')
+            }
+        });
+    }
+
 
     const styles = StyleSheet.create({
         input: {
@@ -90,6 +99,13 @@ const Login = ({ navigation }) => {
             borderRadius: 10,
             backgroundColor: '#663a82',
             marginTop: 20
+        },
+        demo_login_button: {
+            padding: 20,
+            width: '30%',
+            borderRadius: 10,
+            backgroundColor: '#006600',
+            marginTop: 20
         }
     });
 
@@ -135,6 +151,13 @@ const Login = ({ navigation }) => {
 
                 <TouchableOpacity style={styles.not_a_member} onPress={() => navigation.navigate('SignUp')}>
                     <Text style={styles.login_button_text}>Not a member? Sign up</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={styles.demo_login_button}
+                    onPress={() => _demoLogin()}
+                >
+                    <Text style={styles.login_button_text}>Demo</Text>
                 </TouchableOpacity>
             </View>
         </ImageBackground>

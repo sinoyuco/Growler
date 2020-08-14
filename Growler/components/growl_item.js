@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, StyleSheet, View, Text, TextInput, Image } from 'react-native';
 import { fetchGrowls, postGrowl, fetchUserGrowls} from "../actions/growl_actions";
+import { fetchGrowlLikes } from '../actions/like_actions';
+import {postLike} from '../actions/like_actions';
+
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faPaw, faComment } from '@fortawesome/free-solid-svg-icons'
 // import {} from '../actions/';
 
 
@@ -9,6 +14,14 @@ const GrowlItem = (props) => {
 
     const dispatch = useDispatch();
 
+    // useEffect(() => {
+    //     dispatch(fetchGrowlLikes(props.growl.id));
+    // }, []);
+
+    const _handleLike = () => {
+        const like = {growl_id: props.growl.id};
+        dispatch(postLike(like));
+    }
 
 
     const styles = StyleSheet.create({
@@ -55,6 +68,11 @@ const GrowlItem = (props) => {
             flex: 1,
             flexDirection: 'row',
             justifyContent: 'space-between'
+        },
+        footer:{
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'space-evenly'
         }
     });
 
@@ -89,7 +107,22 @@ const GrowlItem = (props) => {
                 </View>
                 
                 <Text style={styles.text}>{props.growl.text}</Text>
+
+                <View style={styles.footer}>
+
+                    <View style={{flex: 1, flexDirection: 'row'}}>
+                    <FontAwesomeIcon icon={faPaw} />
+                    <Text>0</Text>
+                    </View>
+
+                    <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <FontAwesomeIcon icon={faComment} />
+                    <Text>0</Text>
+                    </View>
+                    
+                </View>
             </View>
+
         </View>
     )
 }
