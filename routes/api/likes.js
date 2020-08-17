@@ -6,7 +6,14 @@ const passport = require('passport');
 
 const Like = require('../../models/Like');
 
-router.get('growl/:growl_id', (req, res) => {
+router.get('/all', (req, res) => {
+    Like.find()
+        .sort({ date: -1 })
+        .then(users => res.json(users))
+        .catch(err => res.status(404).json({ nogrowlsfound: 'No likes found for this user' }));
+});
+
+router.get('/growl/:growl_id', (req, res) => {
     Like.find({ growl_id: req.params.growl_id })
         .then(likes => res.json(likes))
         .catch(err =>
@@ -14,7 +21,7 @@ router.get('growl/:growl_id', (req, res) => {
         );
 });
 
-router.get('user/:user_id', (req, res) => {
+router.get('/user/:user_id', (req, res) => {
     Like.find({ user: req.params.user_id })
         .then(likes => res.json(likes))
         .catch(err =>
@@ -37,6 +44,12 @@ router.post('/',
             .then(like => res.json(like))
             .catch(err => console.log(err));
 
+});
+
+router.delete('/:id', (req,res) => {
+    Like.findOneAndDelete({id: req.id})
+    .then((like) => res.json(like))
+    .catch((err) => res.json(err));
 });
 
 module.exports = router;

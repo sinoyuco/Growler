@@ -43,7 +43,7 @@ router.get('/all', (req, res) => {
     User.find()
         .sort({ date: -1 })
         .then(users => res.json(users))
-        .catch(err => res.status(404).json({ nogrowlsfound: 'No growls found' }));
+        .catch(err => res.status(404).json({ nogrowlsfound: 'No users found' }));
 });
 
 router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
@@ -157,6 +157,12 @@ router.patch('/:user_id/upload', upload.single('profileImg'), (req, res) => {
         }
     });
 
+});
+
+router.delete('/:id', (req, res) => {
+    User.findOneAndDelete({ id: req.id })
+        .then((user) => res.json(user))
+        .catch((err) => res.json(err));
 });
 
 

@@ -53,4 +53,12 @@ router.post('/',
             .then(growl => res.json(growl));
     }
 );
+
+router.delete('/:id', (req, res) => {
+    Growl.findOneAndDelete({ id: req.id })
+        .then((growl) => res.json(growl))
+        .catch((err) => res.json(err));
+});
+
+
 module.exports = router;

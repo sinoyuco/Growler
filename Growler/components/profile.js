@@ -68,7 +68,6 @@ export default Profile = ({navigation}) => {
     const background_image = { uri: 'http://hiptrip-aa-seed.s3.amazonaws.com/Growler/landingback.png' }
 
     let silhouette;
-    debugger;
     if (user && user.profileImg && user.profileImg !== "") {
         silhouette = { uri: `http://192.168.1.44:5000/${user.profileImg.split('/')[3]}/${user.profileImg.split('/')[4]}` }
     } else {

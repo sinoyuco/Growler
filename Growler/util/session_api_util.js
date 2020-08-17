@@ -19,6 +19,5 @@ export const login = (userData) => {
 
 
 export const updatePhoto = (user_id, formData) => {
-  debugger;
   return axios.patch(`http://192.168.1.7:5000/api/users/${user_id}/upload`, formData ,{ headers: {'content-type': 'multipart/form-data'}});
 }

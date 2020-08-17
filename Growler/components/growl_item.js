@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, StyleSheet, View, Text, TextInput, Image } from 'react-native';
+import { Button, StyleSheet, View, Text, TextInput, Image, TouchableOpacity } from 'react-native';
 import { fetchGrowls, postGrowl, fetchUserGrowls} from "../actions/growl_actions";
-import { fetchGrowlLikes } from '../actions/like_actions';
-import {postLike} from '../actions/like_actions';
+import { fetchGrowlLikes, postLike, deleteLike } from '../actions/like_actions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPaw, faComment } from '@fortawesome/free-solid-svg-icons'
@@ -12,16 +11,33 @@ import { faPaw, faComment } from '@fortawesome/free-solid-svg-icons'
 
 const GrowlItem = (props) => {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch(); 
+    const likes = useSelector((state) => Object.values(state.likes));
+    const user = useSelector((state) => Object.values(state.user));
 
-    // useEffect(() => {
-    //     dispatch(fetchGrowlLikes(props.growl.id));
-    // }, []);
+    useEffect(() => {
+        dispatch(fetchGrowlLikes(props.growl._id));
+    }, []);
 
-    const _handleLike = () => {
-        const like = {growl_id: props.growl.id};
-        dispatch(postLike(like));
+    const handleLike = () => {
+        let already_liked = false;
+        let already_liked_growl;
+        likes.forEach((ele) => {
+            if(ele.user === user){
+                already_liked = true;
+                already_liked_growl = ele._id;
+            }
+        });
+
+        if(already_liked){
+            dispatch(deleteLike(already_liked_growl));
+        }else{
+            const like = { growl_id: props.growl._id };
+            dispatch(postLike(like));
+        }
     }
+
+    const like_count = likes ? likes.length : 0;
 
 
     const styles = StyleSheet.create({
@@ -73,11 +89,19 @@ const GrowlItem = (props) => {
             flex: 1,
             flexDirection: 'row',
             justifyContent: 'space-evenly'
+        },
+        icontext:{
+            marginLeft: 5
+        },
+        iconview:{
+            paddingTop: 10,
+            paddingBottom: 5,
+            flex: 1, 
+            flexDirection: 'row'
         }
     });
 
     let silhouette;
-    debugger;
     if(props.growl.profileImg && props.growl.profileImg!==""){
         silhouette = {uri: `http://192.168.1.44:5000/${props.growl.profileImg.split('/')[3]}/${props.growl.profileImg.split('/')[4]}`}
     }else{
@@ -93,7 +117,7 @@ const GrowlItem = (props) => {
         let time = splitted[2].slice(3,8);
         return `${month}/${day}/${year}, ${time}`;
     }
-
+    debugger;
     return(
         <View blurRadius={1} style={styles.div}>
             <View style={styles.left_div}>
@@ -110,16 +134,20 @@ const GrowlItem = (props) => {
 
                 <View style={styles.footer}>
 
-                    <View style={{flex: 1, flexDirection: 'row'}}>
-                    <FontAwesomeIcon icon={faPaw} />
-                    <Text>0</Text>
+                    <View style={styles.iconview}>
+                        <TouchableOpacity onPress={() => handleLike()}>
+                            <FontAwesomeIcon style={{ marginLeft: 50 }} icon={faPaw} />
+                        </TouchableOpacity>
+                    <Text style={styles.icontext}>{like_count}</Text>
                     </View>
 
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
-                    <FontAwesomeIcon icon={faComment} />
-                    <Text>0</Text>
+                    <View style={styles.iconview}>
+                        <TouchableOpacity>
+                            <FontAwesomeIcon icon={faComment} />
+                        </TouchableOpacity>
+                    <Text style={styles.icontext}>0</Text>
                     </View>
-                    
+
                 </View>
             </View>
 
