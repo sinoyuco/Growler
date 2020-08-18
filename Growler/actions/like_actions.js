@@ -21,7 +21,7 @@ const receiveUserLikes = (likes) => ({
 });
 
 const removeLike = (like_id) => ({
-    type: RECEIVE_LIKE,
+    type: DELETE_LIKE,
     like_id
 });
 

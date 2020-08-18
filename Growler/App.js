@@ -10,6 +10,7 @@ import Login from './components/login';
 import Feed from './components/feed';
 import SignUp from './components/signup';
 import Profile from './components/profile';
+import GrowlView from './components/growl_view';
 // import Growls from './components/growl';
 import { Provider } from 'react-redux';
 import configureStore from './store/store';
@@ -62,6 +63,7 @@ export default function App() {
           {/* <Stack.Screen name="Growls" component={Growls} /> */}
           <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="Feed" component={Feed} />
+          <Stack.Screen name="GrowlView" component={GrowlView} />
           <Stack.Screen name="Profile" component={Profile}/>
         </Stack.Navigator>
       </NavigationContainer>
