@@ -36,7 +36,7 @@ export default Feed = ({navigation}) => {
     
     const background_image = { uri: 'https://hiptrip-aa-seed.s3.amazonaws.com/Growler/landingback.png' }
     const handle = user ? user.handle : null;
-    const showGrowls = growls.length ? growls.map(ele => <GrowlItem growl={ele} key={ele.id}/>) : <Text>Your growls feed is empty :(</Text>;
+    const showGrowls = growls.length ? growls.map(ele => <GrowlItem growl={ele} navigation={navigation} key={ele.id}/>) : <Text>Your growls feed is empty :(</Text>;
 
     if(!fontsLoaded){
       return <AppLoading/>

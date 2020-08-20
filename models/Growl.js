@@ -24,6 +24,10 @@ const GrowlsSchema = new Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    parentGrowl: {
+        type: String,
+        required: false
     }
 });
 

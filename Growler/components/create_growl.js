@@ -20,7 +20,7 @@ export default CreateGrowl = props => {
     const _handleSubmit = () => {
       debugger;
         if (user) {
-          dispatch(postGrowl({text: text}))
+          dispatch(postGrowl({text: text, parentGrowl: ''}))
                 .then(dispatch(fetchGrowls()))
         }
     }

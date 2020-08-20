@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, StyleSheet, View, Text, TextInput, Image, TouchableOpacity } from 'react-native';
-import { fetchGrowls, postGrowl, fetchUserGrowls} from "../actions/growl_actions";
 import { fetchGrowlLikes, postLike, deleteLike } from '../actions/like_actions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPaw, faComment } from '@fortawesome/free-solid-svg-icons'
-import GrowlView from './growl_view';
+
 // import {} from '../actions/';
 
 
-const GrowlItem = (props) => {
+const Reply = (props) => {
     debugger;
-    const dispatch = useDispatch(); 
+    const dispatch = useDispatch();
     const likes = useSelector((state) => Object.values(state.likes));
     const user = useSelector((state) => state.session.user);
 
@@ -20,28 +19,20 @@ const GrowlItem = (props) => {
         dispatch(fetchGrowlLikes(props.growl._id));
     }, []);
 
-    const navigateToTweet = (g) => {
-        debugger;
-        props.navigation.navigate('GrowlView', {
-            growl: g 
-        });
-    }
-    
-
     const handleLike = () => {
         let already_liked = false;
         let already_liked_growl;
         likes.forEach((ele) => {
             debugger;
-            if(ele.user === user.id){
+            if (ele.user === user.id) {
                 already_liked = true;
                 already_liked_growl = ele._id;
             }
         });
 
-        if(already_liked){
+        if (already_liked) {
             dispatch(deleteLike(already_liked_growl));
-        }else{
+        } else {
             const like = { growl_id: props.growl._id };
             dispatch(postLike(like));
         }
@@ -62,12 +53,12 @@ const GrowlItem = (props) => {
             flexDirection: 'row',
             padding: 10
         },
-        handle:{
+        handle: {
             fontSize: 20,
             marginLeft: 10,
             fontWeight: '700'
         },
-        profile:{
+        profile: {
             width: 40,
             height: 40,
             borderRadius: 100,
@@ -75,50 +66,50 @@ const GrowlItem = (props) => {
             borderWidth: 2,
             margin: 5
         },
-        text:{
+        text: {
             color: '#FFFFFF',
             fontSize: 18,
             marginLeft: 10
         },
-        date:{
+        date: {
             fontSize: 14,
             color: '#D3D3D3'
         },
-        left_div:{
+        left_div: {
             width: '15%',
             alignItems: 'center',
             justifyContent: 'center',
         },
-        right_div:{
+        right_div: {
             width: '85%'
         },
-        right_div_1:{
+        right_div_1: {
             flex: 1,
             flexDirection: 'row',
             justifyContent: 'space-between'
         },
-        footer:{
+        footer: {
             flex: 1,
             flexDirection: 'row',
             justifyContent: 'space-evenly'
         },
-        icontext:{
+        icontext: {
             marginLeft: 5,
             fontWeight: 'bold'
         },
-        iconview:{
+        iconview: {
             paddingTop: 10,
             paddingBottom: 5,
-            flex: 1, 
+            flex: 1,
             flexDirection: 'row'
         }
     });
 
     let silhouette;
-    if(props.growl.profileImg && props.growl.profileImg!==""){
-        silhouette = {uri: `http://192.168.1.44:5000/${props.growl.profileImg.split('/')[3]}/${props.growl.profileImg.split('/')[4]}`}
-    }else{
-        silhouette = {uri: 'https://hiptrip-aa-seed.s3.amazonaws.com/Growler/silhouette.jpg'}
+    if (props.growl.profileImg && props.growl.profileImg !== "") {
+        silhouette = { uri: `http://192.168.1.44:5000/${props.growl.profileImg.split('/')[3]}/${props.growl.profileImg.split('/')[4]}` }
+    } else {
+        silhouette = { uri: 'https://hiptrip-aa-seed.s3.amazonaws.com/Growler/silhouette.jpg' }
     }
 
 
@@ -126,16 +117,16 @@ const GrowlItem = (props) => {
         let splitted = dateString.split('-');
         let month = splitted[1];
         let year = splitted[0].slice(2);
-        let day = splitted[2].slice(0,2);
-        let time = splitted[2].slice(3,8);
+        let day = splitted[2].slice(0, 2);
+        let time = splitted[2].slice(3, 8);
         return `${month}/${day}/${year}, ${time}`;
     }
     debugger;
-    return(
+    return (
         <TouchableOpacity onPress={() => navigateToTweet(props.growl)}>
             <View blurRadius={1} style={styles.div}>
                 <View style={styles.left_div}>
-                    <Image style={styles.profile} source={silhouette}/>
+                    <Image style={styles.profile} source={silhouette} />
                 </View>
 
                 <View style={styles.right_div}>
@@ -143,7 +134,7 @@ const GrowlItem = (props) => {
                         <Text style={styles.handle}>@{props.growl.handle}</Text>
                         <Text style={styles.date}>{DateFormat(props.growl.date)}</Text>
                     </View>
-                    
+
                     <Text style={styles.text}>{props.growl.text}</Text>
 
                     <View style={styles.footer}>

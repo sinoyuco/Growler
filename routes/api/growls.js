@@ -30,6 +30,14 @@ router.get('/:id', (req, res) => {
         );
 });
 
+router.get('/:id/replies', (req, res) => {
+    Growl.findById({parentGrowl: req.params.id})
+        .then(growl => res.json(growl))
+        .catch(err =>
+            res.status(404).json({ nogrowlfound: 'No growl found with that ID' })
+        );
+});
+
 router.post('/',
     passport.authenticate('jwt', { session: false }),
     (req, res) => {
@@ -45,7 +53,8 @@ router.post('/',
             text: req.body.text,
             user: req.user.id,
             handle: req.user.handle,
-            profileImg: req.user.profileImg
+            profileImg: req.user.profileImg,
+            parentGrowl: req.body.parentGrowl,
         });
 
 
