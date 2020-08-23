@@ -161,4 +161,4 @@ const Reply = (props) => {
 
 
 
-export default GrowlItem;
+export default Reply;

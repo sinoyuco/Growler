@@ -55,11 +55,11 @@ const GrowlView = (props) => {
             borderWidth: 1,
             borderColor: '#ebebeb',
             width: '100%',
-            // height: '30%',
+            height: '30%',
             minHeight: 30,
             flex: 0.2,
             flexDirection: 'row',
-            padding: 10
+            padding: 10,
         },
         handle: {
             fontSize: 26,
@@ -93,7 +93,6 @@ const GrowlView = (props) => {
             flex: 1,
             flexDirection: 'column',
             justifyContent: 'space-between',
-            backgroundColor: 'red'
         },
         right_div_1: {
             flex: 0,
@@ -143,7 +142,7 @@ const GrowlView = (props) => {
     }
     debugger;
     return (
-        <ImageBackground source={background_image} style={{ width: '100%', height: '100%' }}>
+        <ImageBackground source={background_image} style={{ width: '100%', height: '100%', flex: 1, flexDirection: 'column' }}>
             <View blurRadius={1} style={styles.div}>
                 <View style={styles.left_div}>
                     <Image style={styles.profile} source={silhouette} />
@@ -177,7 +176,7 @@ const GrowlView = (props) => {
             </View>
             <View style={styles.replies_div}>
                 {mapped_replies}
-                <CreateReply/>
+                <CreateReply parent={growl.id}/>
             </View>
         </ImageBackground>
     )
